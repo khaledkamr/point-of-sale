@@ -109,16 +109,16 @@
                 <tbody>
                     @forelse ($categories as $category)
                         <tr class="hover:bg-orange-100 transition-colors duration-200">
-                            <td class="p-4 text-center border-b border-gray-100 font-medium text-gray-600">
+                            <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-600">
                                 {{ $category->id }}
                             </td>
-                            <td class="p-4 text-center border-b border-gray-100 font-medium text-gray-800">
+                            <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-800">
                                 {{ $category->name }}
                             </td>
-                            <td class="p-4 text-center border-b border-gray-100 text-gray-600">
+                            <td class="p-4 text-center border-b border-gray-200 text-gray-600">
                                 {{ $category->parent->name ?? '-' }}
                             </td>
-                            <td class="p-4 text-center border-b border-gray-100">
+                            <td class="p-4 text-center border-b border-gray-200">
                                 <div class="flex justify-center space-x-2">
                                     <!-- View Button -->
                                     <a href="" 

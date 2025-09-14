@@ -358,7 +358,7 @@
             </header>
 
             <!-- Main Content -->
-            <main class="flex-1 p-6 bg-gray-50">
+            <main class="flex-1 p-6 bg-gray-100">
                 @yield('content')
             </main>
         </div>

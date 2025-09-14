@@ -110,16 +110,16 @@
                 <tbody>
                     @forelse ($warehouses as $warehouse)
                         <tr class="hover:bg-orange-100 transition-colors duration-200">
-                            <td class="p-4 text-center border-b border-gray-100 font-medium text-gray-600">
+                            <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-600">
                                 {{ $warehouse->id }}
                             </td>
-                            <td class="p-4 text-center border-b border-gray-100 font-medium text-gray-800">
+                            <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-800">
                                 {{ $warehouse->name }}
                             </td>
-                            <td class="p-4 text-center border-b border-gray-100 text-gray-600">
+                            <td class="p-4 text-center border-b border-gray-200 text-gray-600">
                                 {{ $warehouse->location }}
                             </td>
-                            <td class="p-4 text-center border-b border-gray-100">
+                            <td class="p-4 text-center border-b border-gray-200">
                                 <div class="flex justify-center space-x-2">
                                     <!-- View Button -->
                                     <a href="" 

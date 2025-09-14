@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Stock;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,7 +13,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->get();
-        return view('products.index', compact('products'));
+        $categories = Category::all();
+        $warehouses = Warehouse::all();
+        return view('products.index', compact('products', 'categories', 'warehouses'));
     }
 
     public function create()
@@ -27,11 +31,24 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
+            'warehouse_id' => 'required|exists:warehouses,id',
+            'quantity' => 'required|numeric|min:0',
         ]);
 
-        Product::create($validated);
+        $product = Product::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'category_id' => $validated['category_id'],
+        ]);
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        Stock::create([
+            'product_id' => $product->id,
+            'warehouse_id' => $validated['warehouse_id'],
+            'quantity' => $validated['quantity'],
+        ]);
+
+        return redirect()->route('products.index')->with('success', 'تم إنشاء المنتج بنجاح.');
     }
 
     public function show(Product $product)
@@ -43,7 +60,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        $warehouses = Warehouse::all();
+        $stock = $product->stocks()->first(); 
+        return view('products.edit', compact('product', 'categories', 'warehouses', 'stock'));
     }
 
     public function update(Request $request, Product $product)
@@ -53,16 +72,36 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
+            'warehouse_id' => 'required|exists:warehouses,id',
+            'quantity' => 'required|numeric|min:0',
         ]);
 
-        $product->update($validated);
+        $product->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'category_id' => $validated['category_id'],
+        ]);
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        $stock = $product->stocks()->where('warehouse_id', $validated['warehouse_id'])->first();
+        if ($stock) {
+            $stock->update(['quantity' => $validated['quantity']]);
+        } else {
+            Stock::create([
+                'product_id' => $product->id,
+                'warehouse_id' => $validated['warehouse_id'],
+                'quantity' => $validated['quantity'],
+            ]);
+        }
+
+        return redirect()->route('products.index')->with('success', 'تم تحديث المنتج بنجاح.');
     }
 
     public function destroy(Product $product)
     {
+        $name = $product->name;
+        $product->stocks()->delete();
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('products.index')->with('success', "تم حذف المنتج '$name' بنجاح");
     }
 }
