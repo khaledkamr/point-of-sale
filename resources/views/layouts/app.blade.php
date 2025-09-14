@@ -316,25 +316,25 @@
 
                         <!-- Profile Dropdown -->
                         <div class="relative group">
-                            <button class="flex items-center space-x-2 space-x-reverse p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                            <button class="flex items-center space-x-2  p-2 rounded-lg hover:bg-gray-100 transition-colors">
                                 <div class="w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full flex items-center justify-center">
-                                    <span class="text-white text-sm font-semibold">أ</span>
+                                    <span class="text-white text-sm font-semibold">خ</span>
                                 </div>
                                 <div class="hidden md:block text-right">
-                                    <div class="text-sm font-medium text-gray-700">أحمد محمد</div>
+                                    <div class="text-sm font-medium text-gray-700">خالد قمر</div>
                                     <div class="text-xs text-gray-500">مدير النظام</div>
                                 </div>
                                 <i class="fas fa-chevron-down text-gray-400"></i>
                             </button>
                             <div class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                                 <div class="px-4 py-3 border-b border-gray-200">
-                                    <div class="flex items-center space-x-3 space-x-reverse">
+                                    <div class="flex items-center space-x-3">
                                         <div class="w-10 h-10 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full flex items-center justify-center">
-                                            <span class="text-white font-semibold">أ</span>
+                                            <span class="text-white font-semibold">خ</span>
                                         </div>
                                         <div>
-                                            <div class="font-medium text-gray-900">أحمد محمد</div>
-                                            <div class="text-sm text-gray-500">ahmad@company.com</div>
+                                            <div class="font-medium text-gray-900">خالد قمر</div>
+                                            <div class="text-sm text-gray-500">kk@company.com</div>
                                         </div>
                                     </div>
                                 </div>
