@@ -27,7 +27,7 @@ class WarehouseController extends Controller
 
         Warehouse::create($validated);
 
-        return redirect()->route('warehouses.index')->with('success', 'Warehouse created successfully.');
+        return redirect()->route('warehouses.index')->with('success', 'تم إنشاء مستودع جديد');
     }
 
     public function show(Warehouse $warehouse)
@@ -49,12 +49,13 @@ class WarehouseController extends Controller
 
         $warehouse->update($validated);
 
-        return redirect()->route('warehouses.index')->with('success', 'Warehouse updated successfully.');
+        return redirect()->route('warehouses.index')->with('success', 'تم تعديل بيانات المستودع بنجاح');
     }
 
     public function destroy(Warehouse $warehouse)
     {
+        $name = $warehouse->name;
         $warehouse->delete();
-        return redirect()->route('warehouses.index')->with('success', 'Warehouse deleted successfully.');
+        return redirect()->route('warehouses.index')->with('success', "تم حذف مستودع '$name' بنجاح");
     }
 }
