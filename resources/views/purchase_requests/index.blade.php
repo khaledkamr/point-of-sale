@@ -13,7 +13,7 @@
                     طلبات الشراء
                 </h1>
                 <button type="button" onclick="openAddPurchaseRequestModal()" 
-                        class="bg-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 flex items-center shadow-lg lg:hidden">
+                        class="bg-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 flex items-center lg:hidden">
                     <i class="fas fa-plus ml-2"></i>
                     طلب شراء جديد
                 </button>
@@ -40,7 +40,7 @@
 
                 <!-- Add Button (Desktop) -->
                 <button type="button" onclick="openAddPurchaseRequestModal()" 
-                        class="hidden lg:flex bg-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 items-center shadow-lg">
+                        class="hidden lg:flex bg-primary text-white font-bold px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 items-center">
                     <i class="fas fa-plus ml-2"></i>
                     طلب شراء جديد
                 </button>
@@ -51,7 +51,7 @@
     <!-- Purchase Requests Grid -->
     <div id="purchaseRequestsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         @forelse ($purchaseRequests as $request)
-            <div class="purchase-request-card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" 
+            <div class="purchase-request-card overflow-hidden bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" 
                  data-status="{{ $request->status }}" data-search="{{ $request->id }} {{ $request->warehouse->name ?? '' }}">
                 
                 <!-- Card Header -->
@@ -94,17 +94,12 @@
                                     </div>
                                 @endforeach
                             </div>
-                        @else
-                            <div class="text-center py-3 text-gray-500 bg-gray-50 rounded-lg">
-                                <i class="fas fa-inbox text-lg mb-1"></i>
-                                <p class="text-sm">لا توجد منتجات محددة</p>
-                            </div>
                         @endif
                     </div>
                 </div>
 
                 <!-- Card Actions -->
-                <div class="p-6 bg-gray-50">
+                <div class="p-6 bg-white">
                     <div class="flex flex-wrap gap-2">
                         <!-- Add Purchase Offer -->
                         <button onclick="openAddOfferModal({{ $request->id }})" 
@@ -123,7 +118,7 @@
                         <!-- Create Purchase Order (if offers exist) -->
                         @if(count($request->offers ?? []) > 0)
                             <button onclick="openCreateOrderModal({{ $request->id }})" 
-                                    class="w-full bg-primary text-white px-3 py-2 rounded-lg hover:opacity-90 transition-all duration-200 text-sm flex items-center justify-center">
+                                    class="w-full bg-primary text-white font-bold px-3 py-2 rounded-lg hover:opacity-90 transition-all duration-200 text-sm flex items-center justify-center">
                                 <i class="fa-solid fa-cart-plus ml-1"></i>
                                 إنشاء أمر شراء
                             </button>
@@ -133,7 +128,7 @@
 
                 <!-- Collapsible Offers Section -->
                 <div id="offers-{{ $request->id }}" class="offers-section hidden border-t border-gray-200">
-                    <div class="p-6 bg-gray-50">
+                    <div class="p-6 bg-white">
                         <h4 class="text-sm font-medium text-gray-700 mb-4 flex items-center">
                             <i class="fas fa-handshake ml-2"></i>
                             عروض الشراء
@@ -147,7 +142,7 @@
                                          data-offer-id="{{ $offer->id }}" 
                                          data-request-id="{{ $request->id }}">
                                         <!-- Checkbox -->
-                                        <div class="offer-checkbox absolute top-3 left-3 w-5 h-5 border-2 border-gray-300 rounded bg-white hidden">
+                                        <div class="offer-checkbox absolute top-2 left-2 w-4 h-4 border-2 border-gray-300 rounded bg-white hidden">
                                             <i class="fas fa-check text-white text-xs absolute inset-0 flex items-center justify-center"></i>
                                         </div>
                                         
@@ -211,7 +206,7 @@
     <!-- Add Purchase Request Modal -->
     <div id="addPurchaseRequestModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <!-- Dark Background Overlay -->
-        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"></div>
+        <div class="fixed inset-0 bg-gray-900/80 transition-opacity duration-300"></div>
         
         <div class="relative p-4 w-full max-w-2xl max-h-full z-60">
             <div class="relative bg-white rounded-lg shadow-xl">
@@ -233,18 +228,12 @@
                         <!-- Warehouse Selection -->
                         <div>
                             <label for="warehouse_id" class="block mb-2 text-sm font-medium text-gray-900">المستودع</label>
-                            <select name="warehouse_id" id="warehouse_id" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5">
+                            <select name="warehouse_id" id="warehouse_id" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5">
                                 <option value="">اختر المستودع</option>
                                 @foreach($warehouses ?? [] as $warehouse)
                                     <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                                 @endforeach
                             </select>
-                        </div>
-
-                        <!-- Notes -->
-                        <div>
-                            <label for="notes" class="block mb-2 text-sm font-medium text-gray-900">ملاحظات</label>
-                            <textarea name="notes" id="notes" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5" placeholder="أدخل أي ملاحظات إضافية..."></textarea>
                         </div>
 
                         <!-- Products Section -->
@@ -260,18 +249,23 @@
                                 <!-- Product rows will be added here -->
                             </div>
                         </div>
+                        
+                        <!-- Notes -->
+                        <div>
+                            <label for="notes" class="block mb-2 text-sm font-medium text-gray-900">ملاحظات</label>
+                            <textarea name="notes" id="notes" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent block w-full p-2.5" placeholder="أدخل أي ملاحظات إضافية..."></textarea>
+                        </div>
                     </div>
 
                     <!-- Hidden status field -->
                     <input type="hidden" name="status" value="pending">
 
                     <!-- Modal footer -->
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <button type="submit" class="text-white bg-primary hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center">
-                            <i class="fas fa-save ml-2"></i>
+                    <div class="flex items-center space-x-3">
+                        <button type="submit" class="text-white bg-primary hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-orange-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center flex items-center">
                             حفظ الطلب
                         </button>
-                        <button type="button" onclick="closeAddPurchaseRequestModal()" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100">
+                        <button type="button" onclick="closeAddPurchaseRequestModal()" class="py-2.5 px-5 text-sm font-bold text-gray-900 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100">
                             إلغاء
                         </button>
                     </div>
@@ -283,7 +277,7 @@
     <!-- Add Purchase Offer Modal -->
     <div id="addOfferModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <!-- Dark Background Overlay -->
-        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"></div>
+        <div class="fixed inset-0 bg-gray-900/80 transition-opacity duration-300"></div>
         
         <div class="relative p-4 w-full max-w-md max-h-full z-60">
             <div class="relative bg-white rounded-lg shadow-xl">
@@ -329,12 +323,11 @@
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center">
-                            <i class="fas fa-save ml-2"></i>
+                    <div class="flex items-center">
+                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center">
                             حفظ العرض
                         </button>
-                        <button type="button" onclick="closeAddOfferModal()" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100">
+                        <button type="button" onclick="closeAddOfferModal()" class="w-full py-2.5 px-5 text-sm font-bold text-gray-900 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 mr-3">
                             إلغاء
                         </button>
                     </div>
@@ -346,14 +339,14 @@
     <!-- Create Purchase Order Modal -->
     <div id="createOrderModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <!-- Dark Background Overlay -->
-        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"></div>
+        <div class="fixed inset-0 bg-gray-900/80 transition-opacity duration-300"></div>
         
         <div class="relative p-4 w-full max-w-md max-h-full z-60">
             <div class="relative bg-white rounded-lg shadow-xl">
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                    <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-                        <i class="fas fa-shopping-cart ml-3 text-green-500"></i>
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                        <i class="fas fa-shopping-cart ml-3 text-orange-500"></i>
                         إنشاء أمر شراء
                     </h3>
                     <button type="button" onclick="closeCreateOrderModal()" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex items-center justify-center">
@@ -372,23 +365,23 @@
                             سيتم إنشاء أمر شراء بناءً على العرض المحدد. يرجى التأكد من صحة البيانات قبل المتابعة.
                         </p>
                         
-                        <div id="selectedOfferDetails" class="bg-gray-50 p-3 rounded-lg mb-4">
+                        <div id="selectedOfferDetails" class="bg-gray-100 p-3 rounded-lg mb-4">
                             <!-- Selected offer details will be displayed here -->
                         </div>
                         
                         <div>
                             <label for="order_notes" class="block mb-2 text-sm font-medium text-gray-900">ملاحظات إضافية</label>
-                            <textarea name="notes" id="order_notes" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" placeholder="أدخل أي ملاحظات إضافية لأمر الشراء..."></textarea>
+                            <textarea name="notes" id="order_notes" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent block w-full p-2.5" placeholder="أدخل أي ملاحظات إضافية لأمر الشراء..."></textarea>
                         </div>
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center">
+                    <div class="flex gap-3">
+                        <button type="submit" class="w-full text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center">
                             <i class="fas fa-check ml-2"></i>
                             إنشاء الأمر
                         </button>
-                        <button type="button" onclick="closeCreateOrderModal()" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100">
+                        <button type="button" onclick="closeCreateOrderModal()" class="w-full py-2.5 px-5 text-sm font-bold text-gray-900 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 text-center">
                             إلغاء
                         </button>
                     </div>
@@ -417,11 +410,6 @@
             background-color: #f97316;
             border-color: #f97316;
         }
-
-        .z-60 {
-            z-index: 60;
-        }
-
         .toast-show {
             animation: slideInFromTop 0.3s ease-out;
         }
@@ -514,19 +502,20 @@
             productRow.innerHTML = `
                 <div class="flex-1">
                     <label class="block mb-1 text-xs font-medium text-gray-700">المنتج</label>
-                    <select name="products[${productCounter}][product_id]" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5">
+                    <select name="products[${productCounter}][product_id]" required 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5">
                         <option value="">اختر المنتج</option>
                         @foreach($products ?? [] as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                        <option value="{{ $product->id }}">{{ $product->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="w-24">
                     <label class="block mb-1 text-xs font-medium text-gray-700">الكمية</label>
-                    <input type="number" name="products[${productCounter}][quantity]" min="1" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5" placeholder="1">
+                    <input type="number" name="products[${productCounter}][quantity]" min="1" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full py-3.5 px-2.5" placeholder="1">
                 </div>
-                <button type="button" onclick="removeProductRow(this)" class="text-red-600 hover:text-red-800 p-2.5">
-                    <i class="fas fa-trash"></i>
+                <button type="button" onclick="removeProductRow(this)" class="text-red-600 hover:text-red-800 p-2.5 rounded-lg hover:bg-red-50">
+                    <i class="fas fa-trash-can fa-lg"></i>
                 </button>
             `;
             container.appendChild(productRow);
@@ -569,8 +558,6 @@
                 
                 selectedOfferId = offerId;
                 selectedRequestId = requestId;
-                
-                showSuccessToast('تم اختيار العرض بنجاح');
             }
         }
 
