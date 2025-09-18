@@ -31,16 +31,24 @@
                 </div>
 
                 <!-- Status Filter -->
-                <select id="statusFilter" class="w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                <select id="statusFilter" class="w-full sm:w-48 px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
                     <option value="">جميع الحالات</option>
                     <option value="open">مفتوح</option>
                     <option value="closed">مغلق</option>
                     <option value="pending">في الانتظار</option>
                 </select>
 
+                <!-- Warehouse Filter -->
+                <select id="warehouseFilter" class="w-full sm:w-48 px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <option value="">جميع المستودعات</option>
+                    @foreach($warehouses ?? [] as $warehouse)
+                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                    @endforeach
+                </select>
+
                 <!-- Add Button (Desktop) -->
                 <button type="button" onclick="openAddPurchaseRequestModal()" 
-                        class="hidden lg:flex bg-primary text-white font-bold px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 items-center">
+                        class="hidden lg:flex bg-primary text-white font-bold px-6 py-2 rounded-lg hover:opacity-90 transition-all duration-300 items-center">
                     <i class="fas fa-plus ml-2"></i>
                     طلب شراء جديد
                 </button>
@@ -52,7 +60,7 @@
     <div id="purchaseRequestsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         @forelse ($purchaseRequests as $request)
             <div class="purchase-request-card overflow-hidden bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" 
-                 data-status="{{ $request->status }}" data-search="{{ $request->id }} {{ $request->warehouse->name ?? '' }}">
+                 data-status="{{ $request->status }}" data-search="{{ $request->id }} {{ $request->warehouse->name ?? '' }}" data-warehouse="{{ $request->warehouse_id }}">
                 
                 <!-- Card Header -->
                 <div class="p-6 border-b border-gray-200">
@@ -589,20 +597,23 @@
         function filterCards() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const statusFilter = document.getElementById('statusFilter').value;
+            const warehouseFilter = document.getElementById('warehouseFilter').value;
             const cards = document.querySelectorAll('.purchase-request-card');
             
             cards.forEach(card => {
-                const cardStatus = card.dataset.status;
-                const searchText = card.dataset.search.toLowerCase();
-                
-                const matchesSearch = searchText.includes(searchTerm);
-                const matchesStatus = !statusFilter || cardStatus === statusFilter;
-                
-                if (matchesSearch && matchesStatus) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+            const cardStatus = card.dataset.status;
+            const cardWarehouse = card.dataset.warehouse;
+            const searchText = card.dataset.search.toLowerCase();
+            
+            const matchesSearch = searchText.includes(searchTerm);
+            const matchesStatus = !statusFilter || cardStatus === statusFilter;
+            const matchesWarehouse = !warehouseFilter || cardWarehouse === warehouseFilter;
+            
+            if (matchesSearch && matchesStatus && matchesWarehouse) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
             });
         }
 
@@ -614,35 +625,38 @@
             // Status filter
             document.getElementById('statusFilter').addEventListener('change', filterCards);
             
+            // Warehouse filter
+            document.getElementById('warehouseFilter').addEventListener('change', filterCards);
+            
             // Close modals when clicking on overlay
             document.addEventListener('click', function(event) {
-                // Check if clicked element is the modal overlay (not the modal content)
-                if (event.target.classList.contains('fixed') && event.target.classList.contains('inset-0')) {
-                    const modals = [
-                        'addPurchaseRequestModal',
-                        'addOfferModal', 
-                        'createOrderModal'
-                    ];
-                    
-                    modals.forEach(modalId => {
-                        const modal = document.getElementById(modalId);
-                        if (!modal.classList.contains('hidden')) {
-                            modal.classList.add('hidden');
-                            modal.classList.remove('flex');
-                        }
-                    });
+            // Check if clicked element is the modal overlay (not the modal content)
+            if (event.target.classList.contains('fixed') && event.target.classList.contains('inset-0')) {
+                const modals = [
+                'addPurchaseRequestModal',
+                'addOfferModal', 
+                'createOrderModal'
+                ];
+                
+                modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (!modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
                 }
+                });
+            }
             });
             
             // Close modals with Escape key
             document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape') {
-                    closeAddPurchaseRequestModal();
-                    closeAddOfferModal();
-                    closeCreateOrderModal();
-                    hideErrorToast();
-                    hideSuccessToast();
-                }
+            if (event.key === 'Escape') {
+                closeAddPurchaseRequestModal();
+                closeAddOfferModal();
+                closeCreateOrderModal();
+                hideErrorToast();
+                hideSuccessToast();
+            }
             });
         });
 
