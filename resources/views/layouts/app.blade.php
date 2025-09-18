@@ -144,7 +144,7 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
                                   {{ request()->routeIs('warehouses.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-warehouse ml-3"></i>
-                            <span>المستودعات</span>
+                            <span>المستـــودعــــات</span>
                         </a>
                     </li>
                     <li>
@@ -152,7 +152,7 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('categories.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-tags ml-3"></i>
-                            <span>الأصناف</span>
+                            <span>الأصـنــــــــــــــاف</span>
                         </a>
                     </li>
                     <li>
@@ -160,7 +160,7 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('products.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-box ml-3"></i>
-                            <span>المنتجات</span>
+                            <span>المـنـتـجــــــــــــات</span>
                         </a>
                     </li>
                     <li>
@@ -168,39 +168,7 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('suppliers.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-truck ml-3"></i>
-                            <span>الموردين</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('purchase-requests.index') }}" 
-                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
-                                  {{ request()->routeIs('purchase-requests.*') ? 'active-link text-white' : '' }}">
-                            <i class="fas fa-clipboard-list ml-3"></i>
-                            <span>طلبات الشراء</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('purchase-offers.index') }}" 
-                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
-                                  {{ request()->routeIs('purchase-offers.*') ? 'active-link text-white' : '' }}">
-                            <i class="fas fa-file-invoice ml-3"></i>
-                            <span>عروض الشراء</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('purchase-orders.index') }}" 
-                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
-                                  {{ request()->routeIs('purchase-orders.*') ? 'active-link text-white' : '' }}">
-                            <i class="fas fa-shopping-cart ml-3"></i>
-                            <span>أوامر الشراء</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('receipts.index') }}" 
-                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
-                                  {{ request()->routeIs('receipts.*') ? 'active-link text-white' : '' }}">
-                            <i class="fas fa-receipt ml-3"></i>
-                            <span>إيصالات الاستلام</span>
+                            <span>المــــــورديـــــــن</span>
                         </a>
                     </li>
                     <li>
@@ -208,7 +176,31 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('customers.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-users ml-3"></i>
-                            <span>العملاء</span>
+                            <span>العمــــــــــــــــلاء</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('purchase-requests.index') }}" 
+                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                                  {{ request()->routeIs('purchase-requests.*') ? 'active-link text-white' : '' }}">
+                            <i class="fas fa-clipboard-list ml-3"></i>
+                            <span>طلبــــات الشــــراء</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('purchase-orders.index') }}" 
+                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                                  {{ request()->routeIs('purchase-orders.*') ? 'active-link text-white' : '' }}">
+                            <i class="fas fa-shopping-cart ml-3"></i>
+                            <span>أوامـــــر الشــــراء</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('receipts.index') }}" 
+                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                                  {{ request()->routeIs('receipts.*') ? 'active-link text-white' : '' }}">
+                            <i class="fas fa-receipt ml-3"></i>
+                            <span>إيصــالات الإستـلام</span>
                         </a>
                     </li>
                     <li>
@@ -216,7 +208,7 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('sales-invoices.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-file-invoice-dollar ml-3"></i>
-                            <span>فواتير المبيعات</span>
+                            <span>فواتير المبيعــــــات</span>
                         </a>
                     </li>
                     <li>
@@ -224,7 +216,7 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('sales-returns.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-undo ml-3"></i>
-                            <span>مرتجعات المبيعات</span>
+                            <span>مرتجعات المبيعـات</span>
                         </a>
                     </li>
                     <li>
@@ -240,7 +232,7 @@
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('inventory-transactions.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-exchange-alt ml-3"></i>
-                            <span>حركات المخزون</span>
+                            <span>حركـــات المخـــزون</span>
                         </a>
                     </li>
                 </ul>

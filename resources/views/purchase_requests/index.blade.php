@@ -187,22 +187,6 @@
         @endforelse
     </div>
 
-    <!-- Error Toast -->
-    <div id="errorToast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 hidden transition-all duration-300">
-        <div class="flex items-center">
-            <i class="fas fa-exclamation-triangle ml-2"></i>
-            <span id="errorToastMessage">يرجى اختيار عرض أولاً قبل إنشاء أمر الشراء</span>
-        </div>
-    </div>
-
-    <!-- Success Toast -->
-    <div id="successToast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 hidden transition-all duration-300">
-        <div class="flex items-center">
-            <i class="fas fa-check-circle ml-2"></i>
-            <span id="successToastMessage">تم الحفظ بنجاح</span>
-        </div>
-    </div>
-
     <!-- Add Purchase Request Modal -->
     <div id="addPurchaseRequestModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <!-- Dark Background Overlay -->
@@ -410,35 +394,6 @@
             background-color: #f97316;
             border-color: #f97316;
         }
-        .toast-show {
-            animation: slideInFromTop 0.3s ease-out;
-        }
-
-        .toast-hide {
-            animation: slideOutToTop 0.3s ease-in;
-        }
-
-        @keyframes slideInFromTop {
-            from {
-                transform: translateX(-50%) translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutToTop {
-            from {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(-50%) translateY(-100%);
-                opacity: 0;
-            }
-        }
     </style>
 
     <script>
@@ -475,7 +430,8 @@
 
         function openCreateOrderModal(purchaseRequestId) {
             if (!selectedOfferId || selectedRequestId !== purchaseRequestId) {
-                showErrorToast('يرجى اختيار عرض من هذا الطلب أولاً');
+                const toast = new ToastManager();
+                toast.showError('يرجى اختيار عرض من هذا الطلب أولاً', 5000);
                 return;
             }
             
@@ -711,7 +667,8 @@
             e.preventDefault();
             
             if (!selectedOfferId) {
-                showErrorToast('يرجى اختيار عرض أولاً');
+                const toast = new ToastManager();
+                toast.showError('يرجى اختيار عرض أولاً', 5000);
                 return;
             }
             
@@ -737,9 +694,5 @@
                 return;
             }
         });
-
-        // Auto-close toast when clicked
-        document.getElementById('errorToast').addEventListener('click', hideErrorToast);
-        document.getElementById('successToast').addEventListener('click', hideSuccessToast);
     </script>
 @endsection
