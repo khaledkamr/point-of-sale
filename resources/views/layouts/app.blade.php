@@ -137,8 +137,15 @@
             
             <!-- Navigation Menu -->
             <nav class="mt-6">
-                <h2 class="text-lg font-bold mb-4 px-6 text-gray-800">القائمة الرئيسية</h2>
                 <ul class="space-y-1 px-3">
+                    <li>
+                        <a href="{{ route('main_page') }}" 
+                           class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
+                                  {{ request()->routeIs('main_page.*') ? 'active-link text-white' : '' }}">
+                            <i class="fas fa-home ml-3"></i>
+                            <span>الصفحة الرئيسيـة</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ route('warehouses.index') }}" 
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
@@ -350,7 +357,7 @@
             </header>
 
             <!-- Main Content -->
-            <main class="flex-1 p-6 bg-gray-100">
+            <main class="flex-1 bg-gray-100">
                 @yield('content')
             </main>
         </div>

@@ -3,6 +3,7 @@
 @section('title', 'العملاء')
 
 @section('content')
+<div class="p-6">
     <h1 class="text-3xl font-bold text-gray-800 flex items-center mb-6">
         <i class="fas fa-users ml-3 text-orange-500"></i>
         العملاء
@@ -320,4 +321,6 @@
             </table>
         </div>
     </div>
+</div>
+
 @endsection

@@ -3,6 +3,7 @@
 @section('title', 'المستودعات')
 
 @section('content')
+<div class="p-6">
     <h1 class="text-3xl font-bold text-gray-800 flex items-center mb-6">
         <i class="fas fa-warehouse ml-3 text-orange-500"></i>
         المستودعات
@@ -230,4 +231,6 @@
             </table>
         </div>
     </div>
+</div>
+
 @endsection
