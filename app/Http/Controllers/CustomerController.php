@@ -29,7 +29,7 @@ class CustomerController extends Controller
 
         Customer::create($validated);
 
-        return redirect()->route('pages.customers.index')->with('success', 'تم إنشاء عميل جديد');
+        return redirect()->back()->with('success', 'تم إنشاء عميل جديد');
     }
 
     public function show(Customer $customer)
@@ -53,13 +53,13 @@ class CustomerController extends Controller
 
         $customer->update($validated);
 
-        return redirect()->route('pages.customers.index')->with('success', 'تم تعديل بيانات العميل بنجاح');
+        return redirect()->back()->with('success', 'تم تعديل بيانات العميل بنجاح');
     }
 
     public function destroy(Customer $customer)
     {
         $name = $customer->name;
         $customer->delete();
-        return redirect()->route('pages.customers.index')->with('success', "تم حذف العميل '$name' بنجاح");
+        return redirect()->back()->with('success', "تم حذف العميل '$name' بنجاح");
     }
 }

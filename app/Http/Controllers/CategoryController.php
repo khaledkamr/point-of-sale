@@ -28,7 +28,7 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('pages.categories.index')->with('success', 'تم إنشاء الصنف بنجاح.');
+        return redirect()->back()->with('success', 'تم إنشاء الصنف بنجاح.');
     }
 
     public function show(Category $category)
@@ -52,12 +52,12 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('pages.categories.index')->with('success', 'تم تحديث الصنف بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث الصنف بنجاح.');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('pages.categories.index')->with('success', 'تم حذف الصنف بنجاح.');
+        return redirect()->back()->with('success', 'تم حذف الصنف بنجاح.');
     }
 }

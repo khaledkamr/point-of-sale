@@ -55,7 +55,7 @@ class PurchaseRequestController extends Controller
             ]);
         }
 
-        return redirect()->route('pages.purchase-requests.index')->with('success', 'تم إنشاء طلب الشراء بنجاح.');
+        return redirect()->back()->with('success', 'تم إنشاء طلب الشراء بنجاح.');
     }
 
     public function show(PurchaseRequest $purchaseRequest)
@@ -95,13 +95,13 @@ class PurchaseRequestController extends Controller
             ]);
         }
 
-        return redirect()->route('pages.purchase-requests.index')->with('success', 'تم تحديث طلب الشراء بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث طلب الشراء بنجاح.');
     }
 
     public function destroy(PurchaseRequest $purchaseRequest)
     {
         $purchaseRequest->items()->delete();
         $purchaseRequest->delete();
-        return redirect()->route('pages.purchase-requests.index')->with('success', 'تم حذف طلب الشراء بنجاح.');
+        return redirect()->back()->with('success', 'تم حذف طلب الشراء بنجاح.');
     }
 }

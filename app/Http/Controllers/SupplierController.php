@@ -28,7 +28,7 @@ class SupplierController extends Controller
 
         Supplier::create($validated);
 
-        return redirect()->route('pages.suppliers.index')->with('success', 'تم إنشاء المورد بنجاح.');
+        return redirect()->back()->with('success', 'تم إنشاء المورد بنجاح.');
     }
 
     public function show(Supplier $supplier)
@@ -51,12 +51,12 @@ class SupplierController extends Controller
 
         $supplier->update($validated);
 
-        return redirect()->route('pages.suppliers.index')->with('success', 'تم تحديث المورد بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث المورد بنجاح.');
     }
 
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
-        return redirect()->route('pages.suppliers.index')->with('success', 'تم حذف المورد بنجاح.');
+        return redirect()->back()->with('success', 'تم حذف المورد بنجاح.');
     }
 }

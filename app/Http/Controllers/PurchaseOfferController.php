@@ -33,7 +33,7 @@ class PurchaseOfferController extends Controller
 
         PurchaseOffer::create($validated);
 
-        return redirect()->route('pages.purchase-requests.index')->with('success', 'تم إنشاء عرض الشراء بنجاح.');
+        return redirect()->back()->with('success', 'تم إنشاء عرض الشراء بنجاح.');
     }
 
     public function show(PurchaseOffer $purchaseOffer)
@@ -60,12 +60,12 @@ class PurchaseOfferController extends Controller
 
         $purchaseOffer->update($validated);
 
-        return redirect()->route('pages.purchase-offers.index')->with('success', 'تم تحديث عرض الشراء بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث عرض الشراء بنجاح.');
     }
 
     public function destroy(PurchaseOffer $purchaseOffer)
     {
         $purchaseOffer->delete();
-        return redirect()->route('pages.purchase-offers.index')->with('success', 'تم حذف عرض الشراء بنجاح.');
+        return redirect()->back()->with('success', 'تم حذف عرض الشراء بنجاح.');
     }
 }
