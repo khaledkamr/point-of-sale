@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -33,6 +34,8 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'warehouse_id' => 'required|exists:warehouses,id',
             'quantity' => 'required|numeric|min:0',
+            'sku' => 'nullable|string|max:255|unique:products,sku',
+            'img_url' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $product = Product::create([
@@ -40,7 +43,14 @@ class ProductController extends Controller
             'description' => $validated['description'],
             'price' => $validated['price'],
             'category_id' => $validated['category_id'],
+            'sku' => $validated['sku'] ?? null,
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $product->img_url = $imagePath;
+            $product->save();
+        }
 
         Stock::create([
             'product_id' => $product->id,
@@ -48,7 +58,7 @@ class ProductController extends Controller
             'quantity' => $validated['quantity'],
         ]);
 
-        return redirect()->route('pages.products.index')->with('success', 'تم إنشاء المنتج بنجاح.');
+        return redirect()->back()->with('success', 'تم إنشاء المنتج بنجاح.');
     }
 
     public function show(Product $product)
@@ -69,12 +79,22 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'sku' => 'nullable|string|max:255|unique:products,sku,' . $product->id,
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'warehouse_id' => 'required|exists:warehouses,id',
             'quantity' => 'required|numeric|min:0',
+            'img_url' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        if( $request->hasFile('img_url')) {
+            if ($product->img_url && Storage::disk('public')->exists($product->img_url)) {
+                Storage::disk('public')->delete($product->img_url);
+            }
+            $imagePath = $request->file('img_url')->store('products', 'public');
+            $product->img_url = $imagePath;
+        }
 
         $product->update([
             'name' => $validated['name'],
@@ -94,7 +114,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return redirect()->route('pages.products.index')->with('success', 'تم تحديث المنتج بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث المنتج بنجاح.');
     }
 
     public function destroy(Product $product)
@@ -102,6 +122,6 @@ class ProductController extends Controller
         $name = $product->name;
         $product->stocks()->delete();
         $product->delete();
-        return redirect()->route('pages.products.index')->with('success', "تم حذف المنتج '$name' بنجاح");
+        return redirect()->back()->with('success', "تم حذف المنتج '$name' بنجاح");
     }
 }

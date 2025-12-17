@@ -12,12 +12,12 @@
                     <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm border border-gray-200">
                         <button
                             class="category-tab active flex flex-col items-center justify-center w-20 h-10 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors">
-                            <span class="text-xs font-medium">كل القائمة</span>
+                            <span class="text-xs font-bold">كل القائمة</span>
                         </button>
                         @foreach ($categories as $category)
                             <button
                                 class="category-tab flex flex-col items-center justify-center w-20 h-10 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors">
-                                <span class="text-xs font-medium">{{ $category->name }}</span>
+                                <span class="text-xs font-bold">{{ $category->name }}</span>
                             </button>
                         @endforeach
                     </div>
@@ -26,7 +26,7 @@
                 <!-- Search Bar -->
                 <div class="mb-6">
                     <div class="relative">
-                        <input type="text" placeholder="ابحث عن منتج بالاسم او بالكود..."
+                        <input type="text" placeholder="ابحث عن منتج بالاسم او بالكود..." autofocus
                             class="w-full pl-4 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
                         <button
                             class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-500">
@@ -37,17 +37,17 @@
 
                 <!-- Products Grid -->
                 <div class="grid grid-cols-4 gap-4">
-                    @foreach ($products as $product)
+                    @forelse ($products as $product)
                         <div class="product-card bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-500 border-2 cursor-pointer transition-all"
                             data-product='{
                                 "id": {{ $product->id }},
                                 "name": "{{ $product->name }}",
                                 "category": "{{ $product->category->name }}",
                                 "price": {{ $product->price }},
-                                "image": "/api/placeholder/80/80"
+                                "image": "{{ asset('storage/' . $product->img_url) }}"
                             }'>
                             <div class="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden">
-                                <img src="/api/placeholder/80/80" alt="{{ $product->name }}"
+                                <img src="{{ asset('storage/' . $product->img_url) }}" alt="{{ $product->name }}"
                                     class="w-full h-full object-cover">
                             </div>
                             <h3 class="font-semibold text-gray-800 text-sm mb-1">{{ $product->name }}</h3>
@@ -58,7 +58,12 @@
                                 {{ $product->price }} ر.س
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="col-span-4 text-center text-gray-400 py-8">
+                            <i class="fas fa-box-open text-6xl mb-2"></i><br>
+                            لا توجد منتجات متاحة حالياً.
+                        </div>
+                    @endforelse
                 </div>
 
                 <!-- Track Orders Section -->
@@ -122,7 +127,7 @@
                 <!-- Order Items -->
                 <div class="flex-1 p-4 overflow-y-auto " id="order-items">
                     <!-- Dynamic order items will be inserted here -->
-                    <div id="empty-cart" class="text-center py-8 text-gray-500">
+                    <div id="empty-cart" class="text-center py-8 text-gray-400">
                         <i class="fas fa-shopping-cart text-3xl mb-4"></i>
                         <p>لا توجد منتجات في الطلب</p>
                         <p class="text-sm">اختر منتجاً من القائمة لإضافته</p>
@@ -271,7 +276,7 @@
                             <img src="${item.image}" alt="${item.name}" class="w-10 h-10 rounded object-cover ml-3">
                             <div class="flex-1">
                                 <div class="font-semibold text-gray-800 text-sm">${item.name}</div>
-                                <div class="text-gray-500 text-xs">${item.price.toFixed(2)} ر.س</div>
+                                <div class="text-orange-500 text-xs">${item.price.toFixed(2)} ر.س</div>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
