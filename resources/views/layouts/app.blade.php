@@ -139,9 +139,9 @@
             <nav class="mt-6">
                 <ul class="space-y-1 px-3">
                     <li>
-                        <a href="{{ route('main_page') }}" 
+                        <a href="{{ route('pos.index') }}" 
                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
-                                  {{ request()->routeIs('main_page') ? 'active-link text-white' : '' }}">
+                                  {{ request()->routeIs('pos.index') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-home ml-3"></i>
                             <span>الصفحة الرئيسيـة</span>
                         </a>

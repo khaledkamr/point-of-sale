@@ -10,12 +10,12 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return view('customers.index', compact('customers'));
+        return view('pages.customers.index', compact('customers'));
     }
 
     public function create()
     {
-        return view('customers.create');
+        return view('pages.customers.create');
     }
 
     public function store(Request $request)
@@ -29,17 +29,17 @@ class CustomerController extends Controller
 
         Customer::create($validated);
 
-        return redirect()->route('customers.index')->with('success', 'تم إنشاء عميل جديد');
+        return redirect()->route('pages.customers.index')->with('success', 'تم إنشاء عميل جديد');
     }
 
     public function show(Customer $customer)
     {
-        return view('customers.show', compact('customer'));
+        return view('pages.customers.show', compact('customer'));
     }
 
     public function edit(Customer $customer)
     {
-        return view('customers.edit', compact('customer'));
+        return view('pages.customers.edit', compact('customer'));
     }
 
     public function update(Request $request, Customer $customer)
@@ -53,13 +53,13 @@ class CustomerController extends Controller
 
         $customer->update($validated);
 
-        return redirect()->route('customers.index')->with('success', 'تم تعديل بيانات العميل بنجاح');
+        return redirect()->route('pages.customers.index')->with('success', 'تم تعديل بيانات العميل بنجاح');
     }
 
     public function destroy(Customer $customer)
     {
         $name = $customer->name;
         $customer->delete();
-        return redirect()->route('customers.index')->with('success', "تم حذف العميل '$name' بنجاح");
+        return redirect()->route('pages.customers.index')->with('success', "تم حذف العميل '$name' بنجاح");
     }
 }

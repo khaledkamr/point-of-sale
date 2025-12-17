@@ -15,13 +15,13 @@ class ProductController extends Controller
         $products = Product::all();
         $categories = Category::all();
         $warehouses = Warehouse::all();
-        return view('products.index', compact('products', 'categories', 'warehouses'));
+        return view('pages.products.index', compact('products', 'categories', 'warehouses'));
     }
 
     public function create()
     {
         $categories = Category::all();
-        return view('products.create', compact('categories'));
+        return view('pages.products.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -48,13 +48,13 @@ class ProductController extends Controller
             'quantity' => $validated['quantity'],
         ]);
 
-        return redirect()->route('products.index')->with('success', 'تم إنشاء المنتج بنجاح.');
+        return redirect()->route('pages.products.index')->with('success', 'تم إنشاء المنتج بنجاح.');
     }
 
     public function show(Product $product)
     {
         $product->load('category');
-        return view('products.show', compact('product'));
+        return view('pages.products.show', compact('product'));
     }
 
     public function edit(Product $product)
@@ -62,7 +62,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $warehouses = Warehouse::all();
         $stock = $product->stocks()->first(); 
-        return view('products.edit', compact('product', 'categories', 'warehouses', 'stock'));
+        return view('pages.products.edit', compact('product', 'categories', 'warehouses', 'stock'));
     }
 
     public function update(Request $request, Product $product)
@@ -94,7 +94,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return redirect()->route('products.index')->with('success', 'تم تحديث المنتج بنجاح.');
+        return redirect()->route('pages.products.index')->with('success', 'تم تحديث المنتج بنجاح.');
     }
 
     public function destroy(Product $product)
@@ -102,6 +102,6 @@ class ProductController extends Controller
         $name = $product->name;
         $product->stocks()->delete();
         $product->delete();
-        return redirect()->route('products.index')->with('success', "تم حذف المنتج '$name' بنجاح");
+        return redirect()->route('pages.products.index')->with('success', "تم حذف المنتج '$name' بنجاح");
     }
 }

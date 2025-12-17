@@ -17,7 +17,7 @@ class PurchaseRequestController extends Controller
         $warehouses = Warehouse::all();
         $products = Product::all();
         $suppliers = Supplier::all();
-        return view('purchase_requests.index', compact(
+        return view('pages.purchase_requests.index', compact(
             'purchaseRequests', 
             'warehouses', 
             'products',
@@ -55,13 +55,13 @@ class PurchaseRequestController extends Controller
             ]);
         }
 
-        return redirect()->route('purchase-requests.index')->with('success', 'تم إنشاء طلب الشراء بنجاح.');
+        return redirect()->route('pages.purchase-requests.index')->with('success', 'تم إنشاء طلب الشراء بنجاح.');
     }
 
     public function show(PurchaseRequest $purchaseRequest)
     {
         $purchaseRequest->load('warehouse', 'items.product');
-        return view('purchase-requests.show', compact('purchaseRequest'));
+        return view('pages.purchase-requests.show', compact('purchaseRequest'));
     }
 
     public function edit(string $id)
@@ -95,13 +95,13 @@ class PurchaseRequestController extends Controller
             ]);
         }
 
-        return redirect()->route('purchase-requests.index')->with('success', 'تم تحديث طلب الشراء بنجاح.');
+        return redirect()->route('pages.purchase-requests.index')->with('success', 'تم تحديث طلب الشراء بنجاح.');
     }
 
     public function destroy(PurchaseRequest $purchaseRequest)
     {
         $purchaseRequest->items()->delete();
         $purchaseRequest->delete();
-        return redirect()->route('purchase-requests.index')->with('success', 'تم حذف طلب الشراء بنجاح.');
+        return redirect()->route('pages.purchase-requests.index')->with('success', 'تم حذف طلب الشراء بنجاح.');
     }
 }

@@ -12,11 +12,10 @@ use App\Http\Controllers\SalesInvoiceController;
 use App\Http\Controllers\SalesReturnController;
 use App\Http\Controllers\SupplierReturnController;
 use App\Http\Controllers\InventoryTransactionController;
+use App\Http\Controllers\POSController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('main_page');
-})->name('main_page');
+Route::get('/', [POSController::class, 'index'])->name('pos.index');
 
 Route::resource('warehouses', WarehouseController::class);
 Route::resource('categories', CategoryController::class);

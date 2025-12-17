@@ -10,12 +10,12 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::all();
-        return view('suppliers.index', compact('suppliers'));
+        return view('pages.suppliers.index', compact('suppliers'));
     }
 
     public function create()
     {
-        return view('suppliers.create');
+        return view('pages.suppliers.create');
     }
 
     public function store(Request $request)
@@ -28,17 +28,17 @@ class SupplierController extends Controller
 
         Supplier::create($validated);
 
-        return redirect()->route('suppliers.index')->with('success', 'تم إنشاء المورد بنجاح.');
+        return redirect()->route('pages.suppliers.index')->with('success', 'تم إنشاء المورد بنجاح.');
     }
 
     public function show(Supplier $supplier)
     {
-        return view('suppliers.show', compact('supplier'));
+        return view('pages.suppliers.show', compact('supplier'));
     }
 
     public function edit(Supplier $supplier)
     {
-        return view('suppliers.edit', compact('supplier'));
+        return view('pages.suppliers.edit', compact('supplier'));
     }
 
     public function update(Request $request, Supplier $supplier)
@@ -51,12 +51,12 @@ class SupplierController extends Controller
 
         $supplier->update($validated);
 
-        return redirect()->route('suppliers.index')->with('success', 'تم تحديث المورد بنجاح.');
+        return redirect()->route('pages.suppliers.index')->with('success', 'تم تحديث المورد بنجاح.');
     }
 
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
-        return redirect()->route('suppliers.index')->with('success', 'تم حذف المورد بنجاح.');
+        return redirect()->route('pages.suppliers.index')->with('success', 'تم حذف المورد بنجاح.');
     }
 }

@@ -10,13 +10,13 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::with('parent')->get();
-        return view('categories.index', compact('categories'));
+        return view('pages.categories.index', compact('categories'));
     }
 
     public function create()
     {
         $categories = Category::all();
-        return view('categories.create', compact('categories'));
+        return view('pages.categories.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -28,19 +28,19 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('categories.index')->with('success', 'تم إنشاء الصنف بنجاح.');
+        return redirect()->route('pages.categories.index')->with('success', 'تم إنشاء الصنف بنجاح.');
     }
 
     public function show(Category $category)
     {
         $category->load('parent');
-        return view('categories.show', compact('category'));
+        return view('pages.categories.show', compact('category'));
     }
 
     public function edit(Category $category)
     {
         $categories = Category::where('id', '!=', $category->id)->get();
-        return view('categories.edit', compact('category', 'categories'));
+        return view('pages.categories.edit', compact('category', 'categories'));
     }
 
     public function update(Request $request, Category $category)
@@ -52,12 +52,12 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('categories.index')->with('success', 'تم تحديث الصنف بنجاح.');
+        return redirect()->route('pages.categories.index')->with('success', 'تم تحديث الصنف بنجاح.');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('categories.index')->with('success', 'تم حذف الصنف بنجاح.');
+        return redirect()->route('pages.categories.index')->with('success', 'تم حذف الصنف بنجاح.');
     }
 }

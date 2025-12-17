@@ -10,12 +10,12 @@ class WarehouseController extends Controller
     public function index()
     {
         $warehouses = Warehouse::all();
-        return view('warehouses.index', compact('warehouses'));
+        return view('pages.warehouses.index', compact('warehouses'));
     }
 
     public function create()
     {
-        return view('warehouses.create');
+        return view('pages.warehouses.create');
     }
 
     public function store(Request $request)
@@ -27,17 +27,17 @@ class WarehouseController extends Controller
 
         Warehouse::create($validated);
 
-        return redirect()->route('warehouses.index')->with('success', 'تم إنشاء مستودع جديد');
+        return redirect()->route('pages.warehouses.index')->with('success', 'تم إنشاء مستودع جديد');
     }
 
     public function show(Warehouse $warehouse)
     {
-        return view('warehouses.show', compact('warehouse'));
+        return view('pages.warehouses.show', compact('warehouse'));
     }
 
     public function edit(Warehouse $warehouse)
     {
-        return view('warehouses.edit', compact('warehouse'));
+        return view('pages.warehouses.edit', compact('warehouse'));
     }
 
     public function update(Request $request, Warehouse $warehouse)
@@ -49,13 +49,13 @@ class WarehouseController extends Controller
 
         $warehouse->update($validated);
 
-        return redirect()->route('warehouses.index')->with('success', 'تم تعديل بيانات المستودع بنجاح');
+        return redirect()->route('pages.warehouses.index')->with('success', 'تم تعديل بيانات المستودع بنجاح');
     }
 
     public function destroy(Warehouse $warehouse)
     {
         $name = $warehouse->name;
         $warehouse->delete();
-        return redirect()->route('warehouses.index')->with('success', "تم حذف مستودع '$name' بنجاح");
+        return redirect()->route('pages.warehouses.index')->with('success', "تم حذف مستودع '$name' بنجاح");
     }
 }
