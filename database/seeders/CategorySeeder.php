@@ -11,37 +11,45 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            // Parent categories first
             [
                 'id' => 1,
-                'name' => 'أحذية',
+                'name' => 'المعجنات',
                 'parent_id' => null,
             ],
-            [
-                'id' => 4,
-                'name' => 'تيشرت',
-                'parent_id' => null,
-            ],
-            // Child categories
             [
                 'id' => 2,
-                'name' => 'أحذية بكعب',
+                'name' => 'الكيك',
                 'parent_id' => 1,
             ],
             [
                 'id' => 3,
-                'name' => 'أحذية رياضية',
+                'name' => 'الدونات',
                 'parent_id' => 1,
             ],
             [
+                'id' => 4,
+                'name' => 'الخبز',
+                'parent_id' => null,
+            ],
+            [
                 'id' => 5,
-                'name' => 'تيشرت رجالي',
-                'parent_id' => 4,
+                'name' => 'ساندوتش',
+                'parent_id' => null,
             ],
             [
                 'id' => 6,
                 'name' => 'تيشرت نسائي',
-                'parent_id' => 4,
+                'parent_id' => null,
+            ],
+            [
+                'id' => 7,
+                'name' => 'مشروبات ساخنة',
+                'parent_id' => null,
+            ],
+            [
+                'id' => 8,
+                'name' => 'مشروبات باردة',
+                'parent_id' => null,
             ],
         ];
 

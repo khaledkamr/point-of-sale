@@ -12,15 +12,20 @@ class SupplierSeeder extends Seeder
     {
         $suppliers = [
             [
-                'name' => 'شركة نايك',
-                'email' => 'nike@gmail.com',
-                'phone' => '059789824',
+                'name' => 'مورد خبز',
             ],
             [
-                'name' => 'شركة توب تين',
-                'email' => 'top10@gmail.com',
-                'phone' => '0597292144',
+                'name' => 'مورد بن',
             ],
+            [
+                'name' => 'مورد سكر',
+            ],
+            [
+                'name' => 'مورد دقيق',
+            ],
+            [
+                'name' => 'مورد لحوم',
+            ]
         ];
 
         foreach ($suppliers as $supplier) {

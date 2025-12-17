@@ -12,12 +12,12 @@ class WarehouseSeeder extends Seeder
     {
         $warehouses = [
             [
-                'id' => 15,
+                'id' => 1,
                 'name' => 'مستودع النسيم الغربي',
                 'location' => 'الرياض',
             ],
             [
-                'id' => 16,
+                'id' => 2,
                 'name' => 'مستدوع الدمام',
                 'location' => 'الدمام',
             ],
