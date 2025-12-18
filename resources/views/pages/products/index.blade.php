@@ -57,10 +57,10 @@
                 </button>
 
                 <div id="add-product-modal" tabindex="-1" aria-hidden="true"
-                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    class="modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div class="relative p-4 w-full max-w-2xl max-h-full">
                         <div class="relative bg-white rounded-lg shadow-sm">
-                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                            <div class="flex items-center justify-between p-4 border-b rounded-t">
                                 <h2 class="text-xl font-bold text-gray-800 flex items-center">
                                     <i class="fas fa-plus-circle ml-2 text-orange-500"></i>
                                     إضافة منتج جديد
@@ -77,7 +77,7 @@
                                 </button>
                             </div>
                             <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data"
-                                class="p-4 md:p-5">
+                                class="p-4">
                                 @csrf
                                 <div class="grid gap-4 mb-4 grid-cols-2">
                                     <div class="col-span-2 sm:col-span-1">
@@ -95,7 +95,7 @@
                                     <div class="col-span-2 sm:col-span-1">
                                         <label for="price"
                                             class="block mb-2 text-sm font-bold text-gray-900">السعر</label>
-                                        <input type="number" name="price" id="price"
+                                        <input type="number" name="price" id="price" step="0.01" min="0"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
                                             required="">
                                     </div>
@@ -218,10 +218,10 @@
 
                             {{-- edit modal --}}
                             <div id="edit-product-modal{{ $product->id }}" tabindex="-1" aria-hidden="true"
-                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                class="modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                 <div class="relative p-4 w-full max-w-2xl max-h-full">
                                     <div class="relative bg-white rounded-lg shadow-sm">
-                                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                                        <div class="flex items-center justify-between p-4 border-b rounded-t">
                                             <h2 class="text-xl font-bold text-gray-800 flex items-center">
                                                 <i class="fas fa-plus-circle ml-2 text-orange-500"></i>
                                                 تعديل بيانات المنتج
@@ -239,92 +239,93 @@
                                                 <span class="sr-only">Close modal</span>
                                             </button>
                                         </div>
-                                        <form action="{{ route('products.update', $product) }}" method="POST"
-                                            enctype="multipart/form-data" class="p-4 md:p-5">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="grid gap-4 mb-4 grid-cols-2">
-                                                <div class="col-span-2 sm:col-span-1">
-                                                    <label class="block mb-2 text-sm font-bold text-gray-900">إسم
-                                                        المنتج</label>
-                                                    <input type="text" name="name" value="{{ $product->name }}"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
-                                                        required="">
+                                        <div class="p-4">
+                                            <form action="{{ route('products.update', $product) }}" method="POST"
+                                                enctype="multipart/form-data" >
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="grid gap-4 mb-4 grid-cols-2">
+                                                    <div class="col-span-2 sm:col-span-1">
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم
+                                                            المنتج</label>
+                                                        <input type="text" name="name" value="{{ $product->name }}"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
+                                                            required="">
+                                                    </div>
+                                                    <div class="col-span-2 sm:col-span-1">
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الكود</label>
+                                                        <input type="text" name="sku" value="{{ $product->sku }}"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
+                                                            required="">
+                                                    </div>
+                                                    <div class="col-span-2 sm:col-span-1">
+                                                        <label for="price"
+                                                            class="block mb-2 text-sm font-bold text-gray-900">السعر</label>
+                                                        <input type="number" name="price" id="price" steps="0.01" min="0" value="{{ $product->price }}"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
+                                                            required="">
+                                                    </div>
+                                                    <div class="col-span-2 sm:col-span-1">
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الصنف</label>
+                                                        <select name="category_id"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1.5">
+                                                            <option disabled selected="">إختر صنف</option>
+                                                            @foreach ($categories as $category)
+                                                                <option value="{{ $category->id }}"
+                                                                    {{ $product->category->id == $category->id ? 'selected' : '' }}>
+                                                                    {{ $category->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-span-2 sm:col-span-1">
+                                                        <label
+                                                            class="block mb-2 text-sm font-bold text-gray-900">المستودع</label>
+                                                        <select name="warehouse_id"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 focus:border-orange-500 block w-full p-1.5">
+                                                            <option disabled selected="">إختر مستودع</option>
+                                                            @foreach ($warehouses as $warehouse)
+                                                                <option value="{{ $warehouse->id }}"
+                                                                    {{ $product->stocks->first()->warehouse->id == $warehouse->id ? 'selected' : '' }}>
+                                                                    {{ $warehouse->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-span-2 sm:col-span-1">
+                                                        <label
+                                                            class="block mb-2 text-sm font-bold text-gray-900">الكمية</label>
+                                                        <input type="number" name="quantity"
+                                                            value="{{ $product->stocks->first()->quantity }}"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
+                                                            required="">
+                                                    </div>
+                                                    <div class="col-span-2 sm:col-span-2">
+                                                        <label
+                                                            class="block mb-2 text-sm font-bold text-gray-900">الصورة</label>
+                                                        <input type="file" name="img_url" accept="image/*"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5">
+                                                    </div>
+                                                    <div class="col-span-2">
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">وصف
+                                                            المنتج</label>
+                                                        <textarea name="description" rows="2"
+                                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent transition-all duration-200">{{ $product->description }}</textarea>
+                                                    </div>
                                                 </div>
-                                                <div class="col-span-2 sm:col-span-1">
-                                                    <label class="block mb-2 text-sm font-bold text-gray-900">الكود</label>
-                                                    <input type="text" name="sku" value="{{ $product->sku }}"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
-                                                        required="">
+                                                <div class="flex space-x-3 space-x-reverse mt-8">
+                                                    <button type="submit"
+                                                        class="flex-1 bg-primary text-white font-bold py-3 rounded-lg hover:opacity-90 transition-all duration-200 flex items-center justify-center">
+                                                        حفظ المنتج
+                                                    </button>
                                                 </div>
-                                                <div class="col-span-2 sm:col-span-1">
-                                                    <label for="price"
-                                                        class="block mb-2 text-sm font-bold text-gray-900">السعر</label>
-                                                    <input type="number" name="price" id="price"
-                                                        value="{{ $product->price }}"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
-                                                        required="">
-                                                </div>
-                                                <div class="col-span-2 sm:col-span-1">
-                                                    <label class="block mb-2 text-sm font-bold text-gray-900">الصنف</label>
-                                                    <select name="category_id"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1.5">
-                                                        <option disabled selected="">إختر صنف</option>
-                                                        @foreach ($categories as $category)
-                                                            <option value="{{ $category->id }}"
-                                                                {{ $product->category->id == $category->id ? 'selected' : '' }}>
-                                                                {{ $category->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-2 sm:col-span-1">
-                                                    <label
-                                                        class="block mb-2 text-sm font-bold text-gray-900">المستودع</label>
-                                                    <select name="warehouse_id"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 focus:border-orange-500 block w-full p-1.5">
-                                                        <option disabled selected="">إختر مستودع</option>
-                                                        @foreach ($warehouses as $warehouse)
-                                                            <option value="{{ $warehouse->id }}"
-                                                                {{ $product->stocks->first()->warehouse->id == $warehouse->id ? 'selected' : '' }}>
-                                                                {{ $warehouse->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-2 sm:col-span-1">
-                                                    <label
-                                                        class="block mb-2 text-sm font-bold text-gray-900">الكمية</label>
-                                                    <input type="number" name="quantity"
-                                                        value="{{ $product->stocks->first()->quantity }}"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5"
-                                                        required="">
-                                                </div>
-                                                <div class="col-span-2 sm:col-span-2">
-                                                    <label
-                                                        class="block mb-2 text-sm font-bold text-gray-900">الصورة</label>
-                                                    <input type="file" name="img_url" accept="image/*"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5">
-                                                </div>
-                                                <div class="col-span-2">
-                                                    <label class="block mb-2 text-sm font-bold text-gray-900">وصف
-                                                        المنتج</label>
-                                                    <textarea name="description" rows="2"
-                                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent transition-all duration-200">{{ $product->description }}</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="flex space-x-3 space-x-reverse mt-8">
-                                                <button type="submit"
-                                                    class="flex-1 bg-primary text-white font-bold py-3 rounded-lg hover:opacity-90 transition-all duration-200 flex items-center justify-center">
-                                                    حفظ المنتج
-                                                </button>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             {{-- delete modal --}}
                             <div id="delete-modal{{ $product->id }}" tabindex="-1"
-                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                class="modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                 <div class="relative p-4 w-full max-w-md max-h-full">
                                     <div class="relative bg-white rounded-lg shadow-sm">
                                         <button type="button"

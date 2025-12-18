@@ -146,6 +146,21 @@
         .toast-exit {
             animation: slideOutUp 0.3s ease-in;
         }
+
+        .modal {
+            animation: modal-in 0.25s ease-out forwards;
+        }
+
+        @keyframes modal-in {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
     </style>
 </head>
 
@@ -155,7 +170,7 @@
 
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white shadow-lg border-l border-gray-200 h-screen flex flex-col fixed z-100">
+        <aside class="w-64 bg-white shadow-lg border-l border-gray-200 h-screen flex flex-col fixed">
             <!-- Sidebar Header -->
             <div class="p-6 flex-shrink-0">
                 <div class="flex flex-col items-center justify-center">
