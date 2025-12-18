@@ -16,6 +16,7 @@ use App\Http\Controllers\POSController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [POSController::class, 'index'])->name('pos.index');
+Route::get('/reports', [POSController::class, 'reports'])->name('pos.reports');
 
 Route::resource('warehouses', WarehouseController::class);
 Route::resource('categories', CategoryController::class);

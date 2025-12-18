@@ -3,20 +3,20 @@
 @section('title', 'نظام نقاط البيع')
 
 @section('content')
-    <div class="bg-gray-50 min-h-screen">
-        <div class="flex h-full">
+    <div class="bg-gray-50">
+        <div class="flex h-full min-h-screen">
             <!-- Products Section (Left Side) -->
             <div class="flex-1 p-6">
                 <!-- Category Navigation -->
                 <div class="mb-6">
-                    <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm border border-gray-200">
-                        <button
-                            class="category-tab active flex flex-col items-center justify-center w-20 h-10 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors">
+                    <div class="flex space-x-2 bg-white rounded-xl p-2 shadow-sm border border-gray-200">
+                        <button class="category-tab active flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+                            data-category="all">
                             <span class="text-xs font-bold">كل القائمة</span>
                         </button>
                         @foreach ($categories as $category)
-                            <button
-                                class="category-tab flex flex-col items-center justify-center w-20 h-10 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors">
+                            <button class="category-tab flex flex-col items-center justify-center px-4 py-2 rounded-xl hover:bg-orange-50 text-gray-700 transition-colors"
+                                data-category="{{ $category->name }}">
                                 <span class="text-xs font-bold">{{ $category->name }}</span>
                             </button>
                         @endforeach
@@ -26,44 +26,54 @@
                 <!-- Search Bar -->
                 <div class="mb-6">
                     <div class="relative">
-                        <input type="text" placeholder="ابحث عن منتج بالاسم او بالكود..." autofocus
-                            class="w-full pl-4 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
-                        <button
-                            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-500">
+                        <input type="text" id="searchInput" placeholder="ابحث عن منتج بالاسم او بالكود..." autofocus
+                            class="w-full pl-4 pr-12 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
+                        <button class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-500">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Products Grid -->
-                <div class="grid grid-cols-4 gap-4">
+                <div class="grid grid-cols-5 gap-4">
                     @forelse ($products as $product)
-                        <div class="product-card bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-500 border-2 cursor-pointer transition-all"
+                        <div class="product-card bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-500 border-2 cursor-pointer transition-all relative"
                             data-product='{
                                 "id": {{ $product->id }},
                                 "name": "{{ $product->name }}",
+                                "sku": "{{ $product->sku }}",
                                 "category": "{{ $product->category->name }}",
                                 "price": {{ $product->price }},
                                 "image": "{{ asset('storage/' . $product->img_url) }}"
                             }'>
-                            <div class="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden">
-                                <img src="{{ asset('storage/' . $product->img_url) }}" alt="{{ $product->name }}"
-                                    class="w-full h-full object-cover">
-                            </div>
-                            <h3 class="font-semibold text-gray-800 text-sm mb-1">{{ $product->name }}</h3>
-                            <span class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded mb-2">
+                            <span
+                                class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-tl-md rounded-br-md mb-2 absolute top-0 left-0">
                                 {{ $product->category->name }}
                             </span>
-                            <div class="text-lg font-bold text-gray-800">
+                            <div class="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                                @if($product->img_url)
+                                    <img src="{{ asset('storage/' . $product->img_url) }}" alt="{{ $product->name }}"
+                                        class="w-full h-full object-cover">
+                                @else
+                                    <img src="{{ asset('imgs/placeholder.jpg') }}" alt="{{ $product->name }}"
+                                        class="w-full h-full object-cover">
+                                @endif
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm mb-2">{{ $product->name }}</h3>
+                            <div class="text-lg font-bold text-orange-600">
                                 {{ $product->price }} ر.س
                             </div>
                         </div>
                     @empty
-                        <div class="col-span-4 text-center text-gray-400 py-8">
+                        <div class="col-span-5 text-center text-gray-400 py-8">
                             <i class="fas fa-box-open text-6xl mb-2"></i><br>
                             لا توجد منتجات متاحة حالياً.
                         </div>
                     @endforelse
+                    <div id="no-results-placeholder" class="col-span-5 text-center text-gray-400 py-8 hidden">
+                        <i class="fas fa-search-minus text-6xl mb-2"></i><br>
+                        لا توجد منتجات مطابقة.
+                    </div>
                 </div>
 
                 <!-- Track Orders Section -->
@@ -72,22 +82,22 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">تتبع الطلبات</h3>
                         <div class="grid grid-cols-4 gap-4">
                             <div class="text-center p-3 bg-blue-50 rounded-lg">
-                                <div class="font-semibold text-blue-800">مايك</div>
+                                <div class="font-semibold text-blue-800">خالد</div>
                                 <div class="text-sm text-blue-600">الطاولة 04 • تناول بالداخل</div>
                                 <div class="text-xs text-blue-500">10:00 صباحاً</div>
                             </div>
                             <div class="text-center p-3 bg-green-50 rounded-lg">
-                                <div class="font-semibold text-green-800">بيلي</div>
+                                <div class="font-semibold text-green-800">يوسف</div>
                                 <div class="text-sm text-green-600">الطاولة 05 • للاستلام</div>
                                 <div class="text-xs text-green-500">08:45 صباحاً</div>
                             </div>
                             <div class="text-center p-3 bg-orange-50 rounded-lg">
-                                <div class="font-semibold text-orange-800">ريتشارد</div>
+                                <div class="font-semibold text-orange-800">ياسين</div>
                                 <div class="text-sm text-orange-600">الطاولة 02 • تناول بالداخل</div>
                                 <div class="text-xs text-orange-500">08:15 صباحاً</div>
                             </div>
                             <div class="text-center p-3 bg-purple-50 rounded-lg">
-                                <div class="font-semibold text-purple-800">شارون</div>
+                                <div class="font-semibold text-purple-800">احمد</div>
                                 <div class="text-sm text-purple-600">الطاولة 01</div>
                                 <div class="text-xs text-purple-500"></div>
                             </div>
@@ -97,11 +107,11 @@
             </div>
 
             <!-- Order Section (Right Side) -->
-            <div class="w-80 bg-white border-r border-gray-200 flex flex-col">
+            <div class="w-80 bg-white border-r border-gray-200 flex flex-col position-relative">
                 <!-- Order Header -->
                 <div class="p-4 border-b border-gray-200">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-lg font-bold text-gray-800">طلب إلويز</h2>
+                        <h2 class="text-lg font-bold text-gray-800">طلب (اسم العميل)</h2>
                         <button class="text-gray-400 hover:text-gray-600">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -125,7 +135,7 @@
                 </div>
 
                 <!-- Order Items -->
-                <div class="flex-1 p-4 overflow-y-auto " id="order-items">
+                <div class="flex-1 p-4 overflow-y-auto" id="order-items">
                     <!-- Dynamic order items will be inserted here -->
                     <div id="empty-cart" class="text-center py-8 text-gray-400">
                         <i class="fas fa-shopping-cart text-3xl mb-4"></i>
@@ -135,7 +145,8 @@
                 </div>
 
                 <!-- Order Summary -->
-                <div class="border-t border-gray-200 p-4">
+                <div class="border-t border-gray-200 p-4 position-fixed bottom-0 bg-white"
+                    style="position: sticky; box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);">
                     <div class="space-y-2 text-sm mb-4">
                         <div class="flex justify-between">
                             <span class="text-gray-600">المجموع الفرعي</span>
@@ -159,7 +170,7 @@
 
                     <div class="space-y-2">
                         <button
-                            class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-bold transition-colors">
+                            class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold transition-colors">
                             تأكيد الطلب
                         </button>
                     </div>
@@ -237,6 +248,10 @@
                     // Add active class to clicked tab
                     this.classList.add('active', 'bg-orange-500', 'text-white');
                     this.classList.remove('text-gray-700', 'hover:bg-orange-50');
+
+                    // Filter products by category
+                    const selectedCategory = this.getAttribute('data-category');
+                    filterProductsByCategory(selectedCategory);
                 });
             });
 
@@ -344,6 +359,33 @@
                 });
             }
 
+            // Check visible products and show placeholder if needed
+            function checkVisibleProducts() {
+                const productCards = document.querySelectorAll('.product-card');
+                const noResultsPlaceholder = document.getElementById('no-results-placeholder');
+
+                let visibleCount = 0;
+                let hiddenCount = 0;
+
+                productCards.forEach(card => {
+                    if (card.style.display === 'none') {
+                        hiddenCount++;
+                    } else {
+                        visibleCount++;
+                    }
+                });
+
+                // Show placeholder if no products are visible
+                if (visibleCount === 0) {
+                    noResultsPlaceholder.classList.remove('hidden');
+                } else {
+                    noResultsPlaceholder.classList.add('hidden');
+                }
+
+                // Optional: Log the counts for debugging
+                console.log(`Visible products: ${visibleCount}, Hidden products: ${hiddenCount}`);
+            }
+
             // Update totals
             function updateTotals() {
                 const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -358,21 +400,59 @@
                 document.getElementById('total').textContent = `${total.toFixed(2)} ر.س`;
             }
 
+            // Filter products by category
+            function filterProductsByCategory(category) {
+                const productCards = document.querySelectorAll('.product-card');
+
+                productCards.forEach(card => {
+                    const productData = JSON.parse(card.getAttribute('data-product'));
+                    const productCategory = productData.category;
+
+                    if (category === 'all' || productCategory === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                // Check and update visibility after filtering
+                checkVisibleProducts();
+                // Check and update visibility after filtering
+                checkVisibleProducts();
+            }
+
             // Search functionality
-            const searchInput = document.querySelector('input[type="text"]');
+            const searchInput = document.getElementById('searchInput');
             if (searchInput) {
                 searchInput.addEventListener('input', function() {
                     const searchTerm = this.value.toLowerCase();
                     const productCards = document.querySelectorAll('.product-card');
+                    const activeCategory = document.querySelector('.category-tab.active').getAttribute(
+                        'data-category');
 
                     productCards.forEach(card => {
-                        const productName = card.querySelector('h3').textContent.toLowerCase();
-                        if (productName.includes(searchTerm)) {
+                        const productData = JSON.parse(card.getAttribute('data-product'));
+                        const productName = productData.name.toLowerCase();
+                        const productSku = productData.sku.toLowerCase();
+                        const productCategory = productData.category;
+
+                        // Check if product matches search term (name or SKU)
+                        const matchesSearch = searchTerm === '' ||
+                            productName.includes(searchTerm) ||
+                            productSku.includes(searchTerm);
+                        // Check if product matches selected category
+                        const matchesCategory = activeCategory === 'all' || productCategory ===
+                            activeCategory;
+
+                        if (matchesSearch && matchesCategory) {
                             card.style.display = 'block';
                         } else {
                             card.style.display = 'none';
                         }
                     });
+                    // Check and update visibility after search
+                    checkVisibleProducts();
+                    // Check and update visibility after search
+                    checkVisibleProducts();
                 });
             }
 

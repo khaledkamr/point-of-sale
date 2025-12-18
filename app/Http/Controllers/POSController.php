@@ -14,4 +14,8 @@ class POSController extends Controller
 
         return view('pages.pos.index', compact('categories', 'products'));
     }
+
+    public function reports() {
+        return view('pages.reports.index');
+    }
 }
