@@ -170,7 +170,7 @@
                                                 </div>
                                                 <div>
                                                     <label class="block text-sm font-bold text-dark mb-2">إسم الصنف الأب</label>
-                                                    <input type="text" id="editLocation" name="location" value="{{ $category->parent->id ?? '' }}"
+                                                    <input type="text" id="editParentId" name="parent_id" value="{{ $category->parent->id ?? '' }}"
                                                         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200">
                                                 </div>
                                             </div>
