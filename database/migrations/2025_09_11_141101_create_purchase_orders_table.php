@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('purchase_offer_id')->nullable()->constrained()->cascadeOnDelete();
             $table->decimal('total_price', 10, 2);
             $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
+            $table->text('notes')->nullable(); // not migrated yet
             $table->timestamps();
         });
     }

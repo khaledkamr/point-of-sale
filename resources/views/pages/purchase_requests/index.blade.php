@@ -353,6 +353,7 @@
                     @csrf
                     <input type="hidden" id="order_purchase_request_id" name="purchase_request_id">
                     <input type="hidden" id="selected_offer_id" name="purchase_offer_id">
+                    <input type="hidden" id="order_total_price" name="total_price">
                     
                     <div class="mb-4">
                         <p class="text-sm text-gray-700 mb-4">
