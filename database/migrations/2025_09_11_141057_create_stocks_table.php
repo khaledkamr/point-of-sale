@@ -13,6 +13,8 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->foreignId('warehouse_id')->constrained('warehouses')->cascadeOnDelete();
             $table->integer('quantity')->default(0);
+            $table->string('location')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

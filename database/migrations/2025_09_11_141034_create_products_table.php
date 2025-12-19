@@ -10,11 +10,15 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('sku')->nullable()->unique();       // Stock Keeping Unit
+            $table->string('name_ar');
+            $table->string('name_en')->nullable();
+            $table->string('sku')->nullable();       // Stock Keeping Unit
             $table->string('img_url')->nullable();
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2);
+            $table->decimal('profit_margin', 5, 2);
+            $table->string('unit')->nullable();
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->timestamps();
         });

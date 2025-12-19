@@ -29,7 +29,7 @@ class CategorySeeder extends Seeder
             [
                 'id' => 4,
                 'name' => 'الخبز',
-                'parent_id' => null,
+                'parent_id' => 1,
             ],
             [
                 'id' => 5,

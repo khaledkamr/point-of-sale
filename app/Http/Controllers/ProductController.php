@@ -2,49 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        $products = Product::all();
+    public function index(Request $request) {
+        $products = Product::query();
         $categories = Category::all();
         $warehouses = Warehouse::all();
+
+        if($request->has('category_id') && $request->category_id != 'all') {
+            $products->where('category_id', $request->category_id);
+        }
+
+        if($request->has('warehouse_id') && $request->warehouse_id != 'all') {
+            $products->whereHas('stocks', function($query) use ($request) {
+                $query->where('warehouse_id', $request->warehouse_id);
+            });
+        }
+
+        if($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $products->where(function($query) use ($searchTerm) {
+                $query->where('name_ar', 'LIKE', "%{$searchTerm}%")
+                      ->orWhere('name_en', 'LIKE', "%{$searchTerm}%")
+                      ->orWhere('sku', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        $products = $products->with(['category', 'stocks.warehouse'])->paginate(100);
+
         return view('pages.products.index', compact('products', 'categories', 'warehouses'));
     }
 
-    public function create()
-    {
-        $categories = Category::all();
-        return view('pages.products.create', compact('categories'));
-    }
+    public function store(ProductRequest $request) {
+        $validated = $request->validated();
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'warehouse_id' => 'required|exists:warehouses,id',
-            'quantity' => 'required|numeric|min:0',
-            'sku' => 'nullable|string|max:255|unique:products,sku',
-            'img_url' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
-        ]);
-
-        $product = Product::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'price' => $validated['price'],
-            'category_id' => $validated['category_id'],
-            'sku' => $validated['sku'] ?? null,
-        ]);
+        $product = Product::create($validated);
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('products', 'public');
@@ -52,74 +53,77 @@ class ProductController extends Controller
             $product->save();
         }
 
-        Stock::create([
-            'product_id' => $product->id,
-            'warehouse_id' => $validated['warehouse_id'],
-            'quantity' => $validated['quantity'],
-        ]);
+        $product->stocks()->createMany(
+            array_map(function ($warehouseId) {
+                return [
+                    'warehouse_id' => $warehouseId,
+                    'quantity' => 0,
+                ];
+            }, in_array('all', $validated['warehouse_id']) ? 
+                Warehouse::pluck('id')->toArray() : 
+                $validated['warehouse_id'])
+        );
 
         return redirect()->back()->with('success', 'تم إنشاء المنتج بنجاح.');
     }
 
-    public function show(Product $product)
-    {
+    public function show(Product $product) {
         $product->load('category');
         return view('pages.products.show', compact('product'));
     }
 
-    public function edit(Product $product)
-    {
-        $categories = Category::all();
-        $warehouses = Warehouse::all();
-        $stock = $product->stocks()->first(); 
-        return view('pages.products.edit', compact('product', 'categories', 'warehouses', 'stock'));
-    }
-
-    public function update(Request $request, Product $product)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'sku' => 'nullable|string|max:255|unique:products,sku,' . $product->id,
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'warehouse_id' => 'required|exists:warehouses,id',
-            'quantity' => 'required|numeric|min:0',
-            'img_url' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+    public function update(Request $request, Product $product) {
+        return $request;
+        $validated = $request->validated();
+        $productData = Arr::only($validated, [
+            'name_ar', 'name_en',
+            'sku', 'description', 
+            'profit_margin',  'unit',
+            // 'is_featured', 'is_active',
+            'category_id'
         ]);
 
-        if( $request->hasFile('img_url')) {
+        $product->update($productData);
+
+        if($request->hasFile('img_url')) {
             if ($product->img_url && Storage::disk('public')->exists($product->img_url)) {
                 Storage::disk('public')->delete($product->img_url);
             }
             $imagePath = $request->file('img_url')->store('products', 'public');
             $product->img_url = $imagePath;
         }
+        
+        if($request->has('warehouse_id')) {
+            $existingWarehouseIds = $product->stocks()->pluck('warehouse_id')->toArray();
+            $newWarehouseIds = in_array('all', $validated['warehouse_id']) ? 
+                Warehouse::pluck('id')->toArray() : 
+                $validated['warehouse_id'];
 
-        $product->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'price' => $validated['price'],
-            'category_id' => $validated['category_id'],
-        ]);
+            $warehousesToAdd = array_diff($newWarehouseIds, $existingWarehouseIds);
+            foreach ($warehousesToAdd as $warehouseId) {
+                $product->stocks()->create([
+                    'warehouse_id' => $warehouseId,
+                    'quantity' => 0,
+                ]);
+            }
 
-        $stock = $product->stocks()->where('warehouse_id', $validated['warehouse_id'])->first();
-        if ($stock) {
-            $stock->update(['quantity' => $validated['quantity']]);
-        } else {
-            Stock::create([
-                'product_id' => $product->id,
-                'warehouse_id' => $validated['warehouse_id'],
-                'quantity' => $validated['quantity'],
-            ]);
+            $warehousesToRemove = array_diff($existingWarehouseIds, $newWarehouseIds);
+            if (!empty($warehousesToRemove)) {
+                $product->stocks()->whereIn('warehouse_id', $warehousesToRemove)->delete();
+            }
         }
 
-        return redirect()->back()->with('success', 'تم تحديث المنتج بنجاح.');
+        $product->save();
+
+        return redirect()->back()->with('success', 'تم تحديث بيانات المنتج بنجاح.');
     }
 
     public function destroy(Product $product)
     {
         $name = $product->name;
+        if($product->img_url && Storage::disk('public')->exists($product->img_url)) {
+            Storage::disk('public')->delete($product->img_url);
+        }
         $product->stocks()->delete();
         $product->delete();
         return redirect()->back()->with('success', "تم حذف المنتج '$name' بنجاح");
