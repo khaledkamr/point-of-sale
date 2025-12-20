@@ -168,6 +168,24 @@
                                                 required="">
                                         </div>
                                     </div>
+                                    <div class="flex gap-3 pt-3">
+                                        <div class="flex items-center gap-17">
+                                            <label for="featuredEdit" class="block mb-2 text-sm font-bold text-gray-900">مميز</label>
+                                            <label class="inline-flex items-center cursor-pointer">
+                                                <input type="hidden" name="is_featured" value="0"> 
+                                                <input type="checkbox" name="is_featured" id="featuredEdit" value="1" class="sr-only peer">
+                                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                            </label>
+                                        </div>
+                                        <div class="flex items-center gap-16">
+                                            <label for="activeEdit" class="block mb-2 text-sm font-bold text-gray-900">فعال</label>
+                                            <label class="inline-flex items-center cursor-pointer">
+                                                <input type="hidden" name="is_active" value="0">
+                                                <input type="checkbox" name="is_active" id="activeEdit" value="1" checked class="sr-only peer">
+                                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-span-2 sm:col-span-1">
                                     <label class="block mb-2 text-sm font-bold text-gray-900">صورة المنتج</label>
@@ -218,6 +236,7 @@
                 <table class="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm">
                     <thead>
                         <tr class="bg-gray-200">
+                            <th class="text-center fw-bold text-gray-700 border-b border-gray-200">#</th>
                             <th class="p-4 text-center font-bold text-gray-700 border-b border-gray-200">المنتج</th>
                             <th class="p-4 text-center font-bold text-gray-700 border-b border-gray-200">الكود</th>
                             <th class="p-4 text-center font-bold text-gray-700 border-b border-gray-200">الصورة</th>
@@ -238,7 +257,15 @@
                                         $stock->warehouse->id != request('warehouse_id'))
                                     @continue
                                 @endif
-                                <tr class="hover:bg-orange-100 transition-colors duration-200">
+                                <tr class="hover:bg-orange-100 transition-colors duration-200 {{ !$product->is_active ? 'opacity-50 bg-gray-100' : '' }}">
+                                    <td class="p-4 text-center border-b border-gray-200">
+                                        {{ $loop->parent->iteration }}
+                                        @if(!$product->is_active)
+                                            <i class="fas fa-ban text-red-500 ml-1"></i>
+                                        @elseif($product->is_featured)
+                                            <i class="fas fa-star text-yellow-400 ml-1"></i>
+                                        @endif
+                                    </td>
                                     <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-800">
                                         {{ $product->name_ar }}
                                     </td>
@@ -247,7 +274,7 @@
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-600">
                                         <img src="{{ asset('storage/' . $product->img_url) }}"
-                                            alt="{{ $product->name }}" class="mx-auto h-12 w-12 object-cover rounded">
+                                            alt="{{ $product->name }}" class="mx-auto h-12 w-12 object-cover rounded {{ !$product->is_active ? 'grayscale' : '' }}">
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 text-gray-600">
                                         <span
@@ -274,7 +301,7 @@
                                         <div class="flex justify-center space-x-2">
                                             <!-- View Button -->
                                             <a href=""
-                                                class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200">
+                                                class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200 {{ !$product->is_active ? 'pointer-events-none opacity-50' : '' }}">
                                                 <i class="fas fa-eye"></i>
                                             </a>
 
@@ -372,7 +399,9 @@
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 w-full p-1">
                                                             <option value="">اختر مستودع</option>
                                                             @foreach ($warehouses as $warehouse)
-                                                                @if($product->stocks->pluck('warehouse_id')->contains($warehouse->id)) @continue @endif
+                                                                @if ($product->stocks->pluck('warehouse_id')->contains($warehouse->id))
+                                                                    @continue
+                                                                @endif
                                                                 <option value="{{ $warehouse->id }}">
                                                                     {{ $warehouse->name }}
                                                                 </option>
@@ -418,6 +447,24 @@
                                                                     value="{{ $product->profit_margin }}"
                                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                                     required="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex gap-3 pt-3">
+                                                            <div class="flex items-center gap-17">
+                                                                <label for="featuredEdit{{ $product->id }}" class="block mb-2 text-sm font-bold text-gray-900">مميز</label>
+                                                                <label class="inline-flex items-center cursor-pointer">
+                                                                    <input type="hidden" name="is_featured" value="0"> 
+                                                                    <input type="checkbox" name="is_featured" id="featuredEdit{{ $product->id }}" value="1" {{ $product->is_featured ? 'checked' : '' }} class="sr-only peer">
+                                                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="flex items-center gap-16">
+                                                                <label for="activeEdit{{ $product->id }}" class="block mb-2 text-sm font-bold text-gray-900">فعال</label>
+                                                                <label class="inline-flex items-center cursor-pointer">
+                                                                    <input type="hidden" name="is_active" value="0">
+                                                                    <input type="checkbox" name="is_active" id="activeEdit{{ $product->id }}" value="1" {{ $product->is_active ? 'checked' : '' }} class="sr-only peer">
+                                                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                                                </label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -818,7 +865,8 @@
                 // Image upload functionality for edit modal
                 const imageBoxEdit{{ $product->id }} = document.getElementById(
                     'imageBoxEdit{{ $product->id }}');
-                const inputEdit{{ $product->id }} = document.getElementById('imageInputEdit{{ $product->id }}');
+                const inputEdit{{ $product->id }} = document.getElementById(
+                    'imageInputEdit{{ $product->id }}');
                 const previewEdit{{ $product->id }} = document.getElementById(
                     'imagePreviewEdit{{ $product->id }}');
                 const placeholderEdit{{ $product->id }} = document.getElementById(

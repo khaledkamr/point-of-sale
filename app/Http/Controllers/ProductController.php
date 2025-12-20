@@ -78,7 +78,7 @@ class ProductController extends Controller
             'name_ar', 'name_en',
             'sku', 'description', 
             'profit_margin',  'unit',
-            // 'is_featured', 'is_active',
+            'is_featured', 'is_active',
             'category_id'
         ]);
 
