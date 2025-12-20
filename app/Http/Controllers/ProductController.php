@@ -72,8 +72,7 @@ class ProductController extends Controller
         return view('pages.products.show', compact('product'));
     }
 
-    public function update(Request $request, Product $product) {
-        return $request;
+    public function update(ProductRequest $request, Product $product) {
         $validated = $request->validated();
         $productData = Arr::only($validated, [
             'name_ar', 'name_en',

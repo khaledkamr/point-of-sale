@@ -320,35 +320,40 @@
                                             </button>
                                         </div>
                                         <div class="p-4">
-                                            <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
+                                            <form id="edit-product-form-{{ $product->id }}"
+                                                action="{{ route('products.update', $product) }}" method="POST"
+                                                enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="grid gap-4 mb-4 grid-cols-2">
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم المنتج
-                                                            بالعربي <span class="text-red-500">*</span></label>
-                                                        <input type="text" name="name_ar" value="{{ $product->name_ar }}"
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم
+                                                            المنتج بالعربي <span class="text-red-500">*</span></label>
+                                                        <input type="text" name="name_ar"
+                                                            value="{{ $product->name_ar }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                             required="">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم المنتج
-                                                            بالإنجليزي</label>
-                                                        <input type="text" name="name_en" value="{{ $product->name_en }}"
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم
+                                                            المنتج بالإنجليزي</label>
+                                                        <input type="text" name="name_en"
+                                                            value="{{ $product->name_en }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                             required="">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الكود <span
-                                                                class="text-red-500">*</span></label>
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الكود
+                                                            <span class="text-red-500">*</span></label>
                                                         <input type="text" name="sku" value="{{ $product->sku }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                             required="">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الفئة <span
-                                                                class="text-red-500">*</span></label>
-                                                        <select id="categorySelectEdit{{ $product->id }}" name="category_id"
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الفئة
+                                                            <span class="text-red-500">*</span></label>
+                                                        <select id="categorySelectEdit{{ $product->id }}"
+                                                            name="category_id"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1">
                                                             <option disabled>إختر فئة المنتج</option>
                                                             @foreach ($categories as $category)
@@ -360,21 +365,23 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">المستودعات
+                                                        <label
+                                                            class="block mb-2 text-sm font-bold text-gray-900">المستودعات
                                                             <span class="text-red-500">*</span></label>
                                                         <select id="warehouseSelectEdit{{ $product->id }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 w-full p-1">
                                                             <option value="">اختر مستودع</option>
-                                                            <option value="all">كل المستودعات</option>
                                                             @foreach ($warehouses as $warehouse)
-                                                                <option value="{{ $warehouse->id }}">{{ $warehouse->name }}
+                                                                @if($product->stocks->pluck('warehouse_id')->contains($warehouse->id)) @continue @endif
+                                                                <option value="{{ $warehouse->id }}">
+                                                                    {{ $warehouse->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                         <div id="selectedWarehousesEdit{{ $product->id }}"
                                                             class="flex flex-wrap gap-2 mt-2">
                                                             @foreach ($product->stocks as $stock)
-                                                                <span
+                                                                <span data-id={{ $stock->warehouse->id }}
                                                                     class="flex items-center gap-1 bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-full cursor-pointer">
                                                                     {{ $stock->warehouse->name }} ✕
                                                                 </span>
@@ -396,7 +403,8 @@
                                                                     القياس <span class="text-red-500">*</span></label>
                                                                 <input type="text" name="unit"
                                                                     id="unitEdit{{ $product->id }}"
-                                                                    value="{{ $product->unit }}" placeholder="قطعة/ كجم/ لتر"
+                                                                    value="{{ $product->unit }}"
+                                                                    placeholder="قطعة/ كجم/ لتر"
                                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                                     required="">
                                                             </div>
@@ -405,8 +413,9 @@
                                                                     class="block mb-2 text-sm font-bold text-gray-900">نسبة
                                                                     الربح <span class="text-red-500">*</span></label>
                                                                 <input type="number" name="profit_margin"
-                                                                    id="profitMarginEdit{{ $product->id }}" step="0.01"
-                                                                    min="0" value="{{ $product->profit_margin }}"
+                                                                    id="profitMarginEdit{{ $product->id }}"
+                                                                    step="0.01" min="0"
+                                                                    value="{{ $product->profit_margin }}"
                                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                                     required="">
                                                             </div>
@@ -417,21 +426,21 @@
                                                             المنتج</label>
                                                         <div id="imageBoxEdit{{ $product->id }}"
                                                             class="relative cursor-pointer group flex items-center justify-center
-                                                                    w-full h-40 border-2 border-dashed border-gray-300 rounded-lg
-                                                                    bg-gray-50 hover:bg-orange-100 transition-all duration-200">
-    
+                                                                w-full h-40 border-2 border-dashed border-gray-300 rounded-lg
+                                                                bg-gray-50 hover:bg-orange-100 transition-all duration-200">
+
                                                             <!-- Placeholder -->
                                                             <div id="imgPlaceholderEdit{{ $product->id }}"
                                                                 class="flex flex-col items-center text-gray-500 hover:text-orange-700 {{ $product->img_url ? 'hidden' : '' }}">
                                                                 <i class="fa-solid fa-image text-4xl mb-2"></i>
                                                                 <span class="text-sm">اضغط لاختيار صورة</span>
                                                             </div>
-    
+
                                                             <!-- Image -->
                                                             <img id="imagePreviewEdit{{ $product->id }}"
                                                                 src="{{ $product->img_url ? asset('storage/' . $product->img_url) : '' }}"
                                                                 class="{{ $product->img_url ? '' : 'hidden' }} absolute inset-0 w-full h-full object-contain rounded-lg">
-    
+
                                                             <!-- Overlay -->
                                                             <div id="imgOverlayEdit{{ $product->id }}"
                                                                 class="{{ $product->img_url ? '' : 'hidden' }} absolute inset-0 bg-black/40 opacity-0 hover:opacity-100
@@ -652,7 +661,6 @@
                 width: '100%'
             });
 
-
             $('#warehouseFilter').on('change', function() {
                 this.form.submit();
             });
@@ -775,15 +783,15 @@
 
                     // Create chip
                     const chip = $(`
-                        <span class="flex items-center gap-1 bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-full cursor-pointer">
+                        <span data-id="${value}" class="flex items-center gap-1 bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-full cursor-pointer">
                             ${text} ✕
                         </span>
                     `);
 
                     chip.on('click', function() {
                         selectedWarehousesEdit{{ $product->id }}.delete(value);
-                        $(this).remove();
                         $(`#warehouse-input-edit-${value}-{{ $product->id }}`).remove();
+                        $(this).remove();
                     });
 
                     $('#selectedWarehousesEdit{{ $product->id }}').append(chip);
@@ -792,7 +800,8 @@
                     const hiddenInput = $(`
                         <input type="hidden" name="warehouse_id[]" value="${value}" id="warehouse-input-edit-${value}-{{ $product->id }}">
                     `);
-                    $('#warehouseInputsEdit{{ $product->id }}').append(hiddenInput);
+                    // append to the form instead of a the hidden inputs container to solve issue when adding new warehouses
+                    $('#edit-product-form-{{ $product->id }}').append(hiddenInput);
 
                     // Clear the select
                     $('#warehouseSelectEdit{{ $product->id }}').val(null).trigger('change');
@@ -800,19 +809,15 @@
 
                 // Handle existing warehouse chips removal
                 $('#selectedWarehousesEdit{{ $product->id }} span').on('click', function() {
-                    const warehouseText = $(this).text().replace(' ✕', '').trim();
-                    // Find the warehouse ID from the hidden inputs and remove from set
-                    $('#warehouseInputsEdit{{ $product->id }} input').each(function() {
-                        const warehouseId = $(this).val();
-                        selectedWarehousesEdit{{ $product->id }}.delete(warehouseId);
-                        $(this).remove();
-                    });
+                    const warehouseId = $(this).data('id');
+                    selectedWarehousesEdit{{ $product->id }}.delete(warehouseId);
+                    $(`#warehouse-input-edit-${warehouseId}-{{ $product->id }}`).remove();
                     $(this).remove();
                 });
 
                 // Image upload functionality for edit modal
                 const imageBoxEdit{{ $product->id }} = document.getElementById(
-                'imageBoxEdit{{ $product->id }}');
+                    'imageBoxEdit{{ $product->id }}');
                 const inputEdit{{ $product->id }} = document.getElementById('imageInputEdit{{ $product->id }}');
                 const previewEdit{{ $product->id }} = document.getElementById(
                     'imagePreviewEdit{{ $product->id }}');
