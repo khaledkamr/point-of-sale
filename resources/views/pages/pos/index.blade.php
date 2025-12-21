@@ -10,14 +10,15 @@
                 <!-- Category Navigation -->
                 <div class="mb-6">
                     <div class="flex space-x-2 bg-white rounded-xl p-2 shadow-sm border border-gray-200">
-                        <button class="category-tab active flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+                        <button
+                            class="category-tab active flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 transition-colors"
                             data-category="all">
                             <span class="text-xs font-bold">كل القائمة</span>
                         </button>
                         @foreach ($categories as $category)
                             <button class="category-tab flex flex-col items-center justify-center px-4 py-2 rounded-xl hover:bg-orange-50 text-gray-700 transition-colors"
-                                data-category="{{ $category->name }}">
-                                <span class="text-xs font-bold">{{ $category->name }}</span>
+                                data-category="{{ $category->name_ar }}">
+                                <span class="text-xs font-bold">{{ $category->name_ar }}</span>
                             </button>
                         @endforeach
                     </div>
@@ -28,7 +29,8 @@
                     <div class="relative">
                         <input type="text" id="searchInput" placeholder="ابحث عن منتج بالاسم او بالكود..." autofocus
                             class="w-full pl-4 pr-12 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
-                        <button class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-500">
+                        <button
+                            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-500">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -40,26 +42,30 @@
                         <div class="product-card bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-500 border-2 cursor-pointer transition-all relative"
                             data-product='{
                                 "id": {{ $product->id }},
-                                "name": "{{ $product->name }}",
+                                "name": "{{ $product->name_ar }}",
                                 "sku": "{{ $product->sku }}",
-                                "category": "{{ $product->category->name }}",
+                                "category": "{{ $product->category->name_ar }}",
                                 "price": {{ $product->price }},
                                 "image": "{{ asset('storage/' . $product->img_url) }}"
                             }'>
-                            <span
-                                class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-tl-md rounded-br-md mb-2 absolute top-0 left-0">
-                                {{ $product->category->name }}
+                            <span class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-tl-md rounded-br-md mb-2 absolute top-0 left-0">
+                                {{ $product->category->name_ar }}
                             </span>
                             <div class="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden">
-                                @if($product->img_url)
-                                    <img src="{{ asset('storage/' . $product->img_url) }}" alt="{{ $product->name }}"
+                                @if ($product->img_url)
+                                    <img src="{{ asset('storage/' . $product->img_url) }}" alt="{{ $product->name_ar }}"
                                         class="w-full h-full object-cover">
                                 @else
-                                    <img src="{{ asset('imgs/placeholder.jpg') }}" alt="{{ $product->name }}"
+                                    <img src="{{ asset('imgs/placeholder.jpg') }}" alt="{{ $product->name_ar }}"
                                         class="w-full h-full object-cover">
                                 @endif
                             </div>
-                            <h3 class="font-bold text-gray-800 text-sm mb-2">{{ $product->name }}</h3>
+                            <h3 class="font-bold text-gray-800 text-sm mb-2">
+                                {{ $product->name_ar }}
+                                @if($product->is_featured)
+                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                @endif
+                            </h3>
                             <div class="text-lg font-bold text-orange-600">
                                 {{ $product->price }} ر.س
                             </div>
@@ -436,12 +442,9 @@
                         const productCategory = productData.category;
 
                         // Check if product matches search term (name or SKU)
-                        const matchesSearch = searchTerm === '' ||
-                            productName.includes(searchTerm) ||
-                            productSku.includes(searchTerm);
+                        const matchesSearch = searchTerm === '' || productName.includes(searchTerm) || productSku.includes(searchTerm);
                         // Check if product matches selected category
-                        const matchesCategory = activeCategory === 'all' || productCategory ===
-                            activeCategory;
+                        const matchesCategory = activeCategory === 'all' || productCategory === activeCategory;
 
                         if (matchesSearch && matchesCategory) {
                             card.style.display = 'block';

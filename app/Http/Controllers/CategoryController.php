@@ -2,62 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
-    {
-        $categories = Category::with('parent')->get();
+    public function index() {
+        $categories = Category::query()
+            ->when(request('search'), function ($query, $search) {
+                $query->where('name_ar', 'like', "%{$search}%")
+                      ->orWhere('name_en', 'like', "%{$search}%");
+            })
+            ->get();
         return view('pages.categories.index', compact('categories'));
     }
 
-    public function create()
-    {
-        $categories = Category::all();
-        return view('pages.categories.create', compact('categories'));
-    }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'parent_id' => 'nullable|exists:categories,id',
-        ]);
+    public function store(CategoryRequest $request) {
+        $validated = $request->validated();
 
         Category::create($validated);
 
-        return redirect()->back()->with('success', 'تم إنشاء الصنف بنجاح.');
+        return redirect()->back()->with('success', 'تم إنشاء فئة جديدة بنجاح.');
     }
 
-    public function show(Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $category->load('parent');
-        return view('pages.categories.show', compact('category'));
-    }
-
-    public function edit(Category $category)
-    {
-        $categories = Category::where('id', '!=', $category->id)->get();
-        return view('pages.categories.edit', compact('category', 'categories'));
-    }
-
-    public function update(Request $request, Category $category)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'parent_id' => 'nullable|exists:categories,id',
-        ]);
+        $validated = $request->validated();
 
         $category->update($validated);
 
-        return redirect()->back()->with('success', 'تم تحديث الصنف بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث الفئة بنجاح.');
     }
 
-    public function destroy(Category $category)
-    {
+    public function destroy(Category $category) {
         $category->delete();
-        return redirect()->back()->with('success', 'تم حذف الصنف بنجاح.');
+        return redirect()->back()->with('success', 'تم حذف الفئة بنجاح.');
     }
 }

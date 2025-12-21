@@ -189,7 +189,7 @@
                     <li>
                         <a href="{{ route('pos.index') }}"
                             class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
-                                  {{ request()->routeIs('pos.index') ? 'active-link text-white' : '' }}">
+                                {{ request()->routeIs('pos.index') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-home ml-3"></i>
                             <span>الصفحة الرئيسيـة</span>
                         </a>
@@ -207,7 +207,7 @@
                             class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('categories.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-tags ml-3"></i>
-                            <span>الأصـنــــــــــــــاف</span>
+                            <span>الفئـــــــــــــــــات</span>
                         </a>
                     </li>
                     <li>
@@ -434,7 +434,6 @@
             </main>
         </div>
     </div>
-
     
     <script>
         // Enhanced Toast System

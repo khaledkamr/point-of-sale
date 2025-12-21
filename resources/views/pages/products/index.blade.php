@@ -22,12 +22,9 @@
                                 ✕
                             </a>
                         @endif
-                        <button type="submit"
-                            class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-primary rounded-e-lg border border-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300">
-                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-primary rounded-e-lg border border-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                             <span class="sr-only">Search</span>
                         </button>
@@ -63,9 +60,8 @@
                         onchange="this.form.submit()">
                         <option value="all">كل الفئات</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name_ar }}
                             </option>
                         @endforeach
                     </select>
@@ -130,7 +126,7 @@
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1">
                                         <option disabled selected="">إختر فئة المنتج</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}">{{ $category->name_ar }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -252,9 +248,7 @@
                     <tbody>
                         @forelse ($products as $product)
                             @foreach ($product->stocks as $stock)
-                                @if (request()->has('warehouse_id') &&
-                                        request('warehouse_id') != 'all' &&
-                                        $stock->warehouse->id != request('warehouse_id'))
+                                @if (request()->has('warehouse_id') && request('warehouse_id') != 'all' && $stock->warehouse->id != request('warehouse_id'))
                                     @continue
                                 @endif
                                 <tr class="hover:bg-orange-100 transition-colors duration-200 {{ !$product->is_active ? 'opacity-50 bg-gray-100' : '' }}">
@@ -274,12 +268,12 @@
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-600">
                                         <img src="{{ asset('storage/' . $product->img_url) }}"
-                                            alt="{{ $product->name }}" class="mx-auto h-12 w-12 object-cover rounded {{ !$product->is_active ? 'grayscale' : '' }}">
+                                            alt="{{ $product->name_ar }}" class="mx-auto h-12 w-12 object-cover rounded {{ !$product->is_active ? 'grayscale' : '' }}">
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 text-gray-600">
                                         <span
                                             class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-xl mb-2">
-                                            {{ $product->category->name }}
+                                            {{ $product->category->name_ar }}
                                         </span>
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 text-gray-600">
@@ -300,21 +294,18 @@
                                     <td class="p-4 text-center border-b border-gray-200">
                                         <div class="flex justify-center space-x-2">
                                             <!-- View Button -->
-                                            <a href=""
-                                                class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200 {{ !$product->is_active ? 'pointer-events-none opacity-50' : '' }}">
+                                            <a href="" class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200 {{ !$product->is_active ? 'pointer-events-none opacity-50' : '' }}">
                                                 <i class="fas fa-eye"></i>
                                             </a>
 
                                             <!-- Edit Button -->
-                                            <button data-modal-target="edit-product-modal{{ $product->id }}"
-                                                data-modal-toggle="edit-product-modal{{ $product->id }}" type="button"
+                                            <button data-modal-target="edit-product-modal{{ $product->id }}" data-modal-toggle="edit-product-modal{{ $product->id }}" type="button"
                                                 class="inline-flex items-center px-3 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors duration-200">
                                                 <i class="fas fa-edit"></i>
                                             </button>
 
                                             <!-- Delete Button -->
-                                            <button data-modal-target="delete-modal{{ $product->id }}"
-                                                data-modal-toggle="delete-modal{{ $product->id }}" type="button"
+                                            <button data-modal-target="delete-modal{{ $product->id }}" data-modal-toggle="delete-modal{{ $product->id }}" type="button"
                                                 class="inline-flex items-center px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors duration-200">
                                                 <i class="fas fa-trash "></i>
                                             </button>
@@ -333,45 +324,33 @@
                                                 <i class="fas fa-edit ml-2 text-orange-500"></i>
                                                 تعديل بيانات المنتج
                                             </h2>
-                                            <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                                                 data-modal-toggle="edit-product-modal{{ $product->id }}">
-                                                <svg class="w-3 h-3" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 14 14">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                                 </svg>
                                                 <span class="sr-only">Close modal</span>
                                             </button>
                                         </div>
                                         <div class="p-4">
-                                            <form id="edit-product-form-{{ $product->id }}"
-                                                action="{{ route('products.update', $product) }}" method="POST"
-                                                enctype="multipart/form-data">
+                                            <form id="edit-product-form-{{ $product->id }}" action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="grid gap-4 mb-4 grid-cols-2">
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم
-                                                            المنتج بالعربي <span class="text-red-500">*</span></label>
-                                                        <input type="text" name="name_ar"
-                                                            value="{{ $product->name_ar }}"
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم المنتج بالعربي <span class="text-red-500">*</span></label>
+                                                        <input type="text" name="name_ar" value="{{ $product->name_ar }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                             required="">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم
-                                                            المنتج بالإنجليزي</label>
-                                                        <input type="text" name="name_en"
-                                                            value="{{ $product->name_en }}"
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">إسم المنتج بالإنجليزي</label>
+                                                        <input type="text" name="name_en" value="{{ $product->name_en }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                             required="">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الكود
-                                                            <span class="text-red-500">*</span></label>
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الكود <span class="text-red-500">*</span></label>
                                                         <input type="text" name="sku" value="{{ $product->sku }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                             required="">
@@ -379,22 +358,18 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label class="block mb-2 text-sm font-bold text-gray-900">الفئة
                                                             <span class="text-red-500">*</span></label>
-                                                        <select id="categorySelectEdit{{ $product->id }}"
-                                                            name="category_id"
+                                                        <select id="categorySelectEdit{{ $product->id }}" name="category_id"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1">
                                                             <option disabled>إختر فئة المنتج</option>
                                                             @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}"
-                                                                    {{ $product->category->id == $category->id ? 'selected' : '' }}>
-                                                                    {{ $category->name }}
+                                                                <option value="{{ $category->id }}" {{ $product->category->id == $category->id ? 'selected' : '' }}>
+                                                                    {{ $category->name_ar }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label
-                                                            class="block mb-2 text-sm font-bold text-gray-900">المستودعات
-                                                            <span class="text-red-500">*</span></label>
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">المستودعات <span class="text-red-500">*</span></label>
                                                         <select id="warehouseSelectEdit{{ $product->id }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 w-full p-1">
                                                             <option value="">اختر مستودع</option>
@@ -407,8 +382,7 @@
                                                                 </option>
                                                             @endforeach
                                                         </select>
-                                                        <div id="selectedWarehousesEdit{{ $product->id }}"
-                                                            class="flex flex-wrap gap-2 mt-2">
+                                                        <div id="selectedWarehousesEdit{{ $product->id }}" class="flex flex-wrap gap-2 mt-2">
                                                             @foreach ($product->stocks as $stock)
                                                                 <span data-id={{ $stock->warehouse->id }}
                                                                     class="flex items-center gap-1 bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-full cursor-pointer">
@@ -427,24 +401,14 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <div class="flex gap-2">
                                                             <div>
-                                                                <label for="unitEdit{{ $product->id }}"
-                                                                    class="block mb-2 text-sm font-bold text-gray-900">وحدة
-                                                                    القياس <span class="text-red-500">*</span></label>
-                                                                <input type="text" name="unit"
-                                                                    id="unitEdit{{ $product->id }}"
-                                                                    value="{{ $product->unit }}"
-                                                                    placeholder="قطعة/ كجم/ لتر"
+                                                                <label for="unitEdit{{ $product->id }}" class="block mb-2 text-sm font-bold text-gray-900">وحدة القياس <span class="text-red-500">*</span></label>
+                                                                <input type="text" name="unit" id="unitEdit{{ $product->id }}" value="{{ $product->unit }}" placeholder="قطعة/ كجم/ لتر"
                                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                                     required="">
                                                             </div>
                                                             <div>
-                                                                <label for="profitMarginEdit{{ $product->id }}"
-                                                                    class="block mb-2 text-sm font-bold text-gray-900">نسبة
-                                                                    الربح <span class="text-red-500">*</span></label>
-                                                                <input type="number" name="profit_margin"
-                                                                    id="profitMarginEdit{{ $product->id }}"
-                                                                    step="0.01" min="0"
-                                                                    value="{{ $product->profit_margin }}"
+                                                                <label for="profitMarginEdit{{ $product->id }}" class="block mb-2 text-sm font-bold text-gray-900">نسبة الربح <span class="text-red-500">*</span></label>
+                                                                <input type="number" name="profit_margin" id="profitMarginEdit{{ $product->id }}" step="0.01" min="0" value="{{ $product->profit_margin }}"
                                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2"
                                                                     required="">
                                                             </div>
@@ -469,45 +433,36 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">صورة
-                                                            المنتج</label>
-                                                        <div id="imageBoxEdit{{ $product->id }}"
-                                                            class="relative cursor-pointer group flex items-center justify-center
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">صورة المنتج</label>
+                                                        <div id="imageBoxEdit{{ $product->id }}" class="relative cursor-pointer group flex items-center justify-center
                                                                 w-full h-40 border-2 border-dashed border-gray-300 rounded-lg
                                                                 bg-gray-50 hover:bg-orange-100 transition-all duration-200">
 
                                                             <!-- Placeholder -->
-                                                            <div id="imgPlaceholderEdit{{ $product->id }}"
-                                                                class="flex flex-col items-center text-gray-500 hover:text-orange-700 {{ $product->img_url ? 'hidden' : '' }}">
+                                                            <div id="imgPlaceholderEdit{{ $product->id }}" class="flex flex-col items-center text-gray-500 hover:text-orange-700 {{ $product->img_url ? 'hidden' : '' }}">
                                                                 <i class="fa-solid fa-image text-4xl mb-2"></i>
                                                                 <span class="text-sm">اضغط لاختيار صورة</span>
                                                             </div>
 
                                                             <!-- Image -->
-                                                            <img id="imagePreviewEdit{{ $product->id }}"
-                                                                src="{{ $product->img_url ? asset('storage/' . $product->img_url) : '' }}"
+                                                            <img id="imagePreviewEdit{{ $product->id }}" src="{{ $product->img_url ? asset('storage/' . $product->img_url) : '' }}"
                                                                 class="{{ $product->img_url ? '' : 'hidden' }} absolute inset-0 w-full h-full object-contain rounded-lg">
 
                                                             <!-- Overlay -->
-                                                            <div id="imgOverlayEdit{{ $product->id }}"
-                                                                class="{{ $product->img_url ? '' : 'hidden' }} absolute inset-0 bg-black/40 opacity-0 hover:opacity-100
+                                                            <div id="imgOverlayEdit{{ $product->id }}" class="{{ $product->img_url ? '' : 'hidden' }} absolute inset-0 bg-black/40 opacity-0 hover:opacity-100
                                                                     flex items-center justify-center text-white text-sm font-semibold transition rounded-lg">
                                                                 تغيير الصورة
                                                             </div>
                                                         </div>
-                                                        <input id="imageInputEdit{{ $product->id }}" type="file"
-                                                            name="img_url" accept="image/*" class="hidden">
+                                                        <input id="imageInputEdit{{ $product->id }}" type="file" name="img_url" accept="image/*" class="hidden">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">وصف
-                                                            المنتج</label>
-                                                        <textarea name="description" rows="7"
-                                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent transition-all duration-200">{{ $product->description }}</textarea>
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">وصف المنتج</label>
+                                                        <textarea name="description" rows="7" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent transition-all duration-200">{{ $product->description }}</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="flex space-x-3 space-x-reverse mt-8">
-                                                    <button type="submit"
-                                                        class="flex-1 bg-primary text-white font-bold py-3 rounded-lg hover:opacity-90 transition-all duration-200 flex items-center justify-center">
+                                                    <button type="submit" class="flex-1 bg-primary text-white font-bold py-3 rounded-lg hover:opacity-90 transition-all duration-200 flex items-center justify-center">
                                                         حفظ المنتج
                                                     </button>
                                                 </div>
@@ -561,7 +516,7 @@
                             </div>
                         @empty
                             <tr>
-                                <td colspan="10" class="p-8 text-center text-gray-500">
+                                <td colspan="11" class="p-8 text-center text-gray-500">
                                     <div class="flex flex-col items-center">
                                         <i class="fas fa-box text-4xl text-gray-300 mb-4"></i>
                                         <p class="text-lg">لا توجد منتجات متاحة</p>
