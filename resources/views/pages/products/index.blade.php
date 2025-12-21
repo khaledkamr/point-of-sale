@@ -45,7 +45,7 @@
                         @foreach ($warehouses as $warehouse)
                             <option value="{{ $warehouse->id }}"
                                 {{ request('warehouse_id') == $warehouse->id ? 'selected' : '' }}>
-                                {{ $warehouse->name }}
+                                {{ $warehouse->name_ar }}
                             </option>
                         @endforeach
                     </select>
@@ -138,7 +138,7 @@
                                         <option value="">اختر مستودع</option>
                                         <option value="all">كل المستودعات</option>
                                         @foreach ($warehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                                            <option value="{{ $warehouse->id }}">{{ $warehouse->name_ar }}</option>
                                         @endforeach
                                     </select>
                                     <div id="selectedWarehouses" class="flex flex-wrap gap-2 mt-2"></div>
@@ -286,7 +286,7 @@
                                         {{ $product->price }}
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 text-gray-600">
-                                        {{ $stock->warehouse->name }}
+                                        {{ $stock->warehouse->name_ar }}
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 text-gray-600">
                                         {{ $stock->quantity }}
@@ -378,7 +378,7 @@
                                                                     @continue
                                                                 @endif
                                                                 <option value="{{ $warehouse->id }}">
-                                                                    {{ $warehouse->name }}
+                                                                    {{ $warehouse->name_ar }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -386,7 +386,7 @@
                                                             @foreach ($product->stocks as $stock)
                                                                 <span data-id={{ $stock->warehouse->id }}
                                                                     class="flex items-center gap-1 bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-full cursor-pointer">
-                                                                    {{ $stock->warehouse->name }} ✕
+                                                                    {{ $stock->warehouse->name_ar }} ✕
                                                                 </span>
                                                             @endforeach
                                                         </div>

@@ -122,19 +122,16 @@
                                 </td>
                                 <td class="p-4 text-center border-b border-gray-200">
                                     <div class="flex justify-center space-x-2">
-                                        <a href=""
-                                            class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200">
+                                        <a href="" class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200">
                                             <i class="fas fa-eye"></i>
                                         </a>
 
-                                        <button data-modal-target="edit-category-modal{{ $category->id }}"
-                                            data-modal-toggle="edit-category-modal{{ $category->id }}" type="button"
+                                        <button data-modal-target="edit-category-modal{{ $category->id }}" data-modal-toggle="edit-category-modal{{ $category->id }}" type="button"
                                             class="inline-flex items-center px-3 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors duration-200">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
-                                        <button data-modal-target="delete-modal{{ $category->id }}"
-                                            data-modal-toggle="delete-modal{{ $category->id }}" type="button"
+                                        <button data-modal-target="delete-modal{{ $category->id }}" data-modal-toggle="delete-modal{{ $category->id }}" type="button"
                                             class="inline-flex items-center px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors duration-200">
                                             <i class="fas fa-trash "></i>
                                         </button>
@@ -252,8 +249,6 @@
             </div>
         </div>
     </div>
-
-
 
     <script>
         // Initialize Select2 for searchable select inputs

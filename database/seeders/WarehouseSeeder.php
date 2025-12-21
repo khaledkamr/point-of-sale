@@ -13,17 +13,17 @@ class WarehouseSeeder extends Seeder
         $warehouses = [
             [
                 'id' => 1,
-                'name' => 'مستودع النسيم',
+                'name_ar' => 'مستودع النسيم',
                 'location' => 'الرياض',
             ],
             [
                 'id' => 2,
-                'name' => 'مستودع العليا',
+                'name_ar' => 'مستودع العليا',
                 'location' => 'الرياض',
             ],
             [
                 'id' => 3,
-                'name' => 'مستدوع الدمام',
+                'name_ar' => 'مستودع الدمام',
                 'location' => 'الدمام',
             ],
         ];

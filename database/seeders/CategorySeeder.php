@@ -13,42 +13,42 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'id' => 1,
-                'name' => 'المعجنات',
+                'name_ar' => 'المعجنات',
                 'parent_id' => null,
             ],
             [
                 'id' => 2,
-                'name' => 'الكيك',
+                'name_ar' => 'الكيك',
                 'parent_id' => 1,
             ],
             [
                 'id' => 3,
-                'name' => 'الدونات',
+                'name_ar' => 'الدونات',
                 'parent_id' => 1,
             ],
             [
                 'id' => 4,
-                'name' => 'الخبز',
+                'name_ar' => 'الخبز',
                 'parent_id' => 1,
             ],
             [
                 'id' => 5,
-                'name' => 'ساندوتش',
+                'name_ar' => 'ساندوتش',
                 'parent_id' => null,
             ],
             [
                 'id' => 6,
-                'name' => 'تيشرت نسائي',
+                'name_ar' => 'تيشرت نسائي',
                 'parent_id' => null,
             ],
             [
                 'id' => 7,
-                'name' => 'مشروبات ساخنة',
+                'name_ar' => 'مشروبات ساخنة',
                 'parent_id' => null,
             ],
             [
                 'id' => 8,
-                'name' => 'مشروبات باردة',
+                'name_ar' => 'مشروبات باردة',
                 'parent_id' => null,
             ],
         ];
