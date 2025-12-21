@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('profit_margin', 5, 2);
             $table->string('unit')->nullable();
-            $table->boolean('is_featured')->default(false);
-            $table->boolean('is_active')->default(true);
+            $table->boolean('featured')->default(false);
+            $table->boolean('active')->default(true);
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->timestamps();
         });

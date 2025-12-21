@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $categories = Category::query()
             ->when(request('search'), function ($query, $search) {
                 $query->where('name_ar', 'like', "%{$search}%")

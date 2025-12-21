@@ -188,7 +188,7 @@
                 <ul class="space-y-1 px-3 pb-6">
                     <li>
                         <a href="{{ route('pos.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600 
                                 {{ request()->routeIs('pos.index') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-home ml-3"></i>
                             <span>الصفحة الرئيسيـة</span>
@@ -196,7 +196,7 @@
                     </li>
                     <li>
                         <a href="{{ route('warehouses.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600 
                                   {{ request()->routeIs('warehouses.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-warehouse ml-3"></i>
                             <span>المستـــودعــــات</span>
@@ -204,15 +204,15 @@
                     </li>
                     <li>
                         <a href="{{ route('categories.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('categories.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-tags ml-3"></i>
-                            <span>الفئـــــــــــــــــات</span>
+                            <span>الفئــــــــــــــــــات</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('products.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('products.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-box ml-3"></i>
                             <span>المـنـتـجــــــــــــات</span>
@@ -220,7 +220,7 @@
                     </li>
                     <li>
                         <a href="{{ route('suppliers.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('suppliers.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-truck ml-3"></i>
                             <span>المــــــورديـــــــن</span>
@@ -228,7 +228,7 @@
                     </li>
                     <li>
                         <a href="{{ route('customers.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('customers.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-users ml-3"></i>
                             <span>العمــــــــــــــــلاء</span>
@@ -236,7 +236,7 @@
                     </li>
                     <li>
                         <a href="{{ route('purchase-requests.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('purchase-requests.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-clipboard-list ml-3"></i>
                             <span>طلبــــات الشــــراء</span>
@@ -244,7 +244,7 @@
                     </li>
                     <li>
                         <a href="{{ route('purchase-orders.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('purchase-orders.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-shopping-cart ml-3"></i>
                             <span>أوامـــــر الشــــراء</span>
@@ -252,7 +252,7 @@
                     </li>
                     <li>
                         <a href="{{ route('receipts.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('receipts.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-receipt ml-3"></i>
                             <span>إيصــالات الإستـلام</span>
@@ -260,7 +260,7 @@
                     </li>
                     <li>
                         <a href="{{ route('sales-invoices.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('sales-invoices.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-file-invoice-dollar ml-3"></i>
                             <span>فواتير المبيعــــــات</span>
@@ -268,7 +268,7 @@
                     </li>
                     <li>
                         <a href="{{ route('sales-returns.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('sales-returns.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-undo ml-3"></i>
                             <span>مرتجعات المبيعـات</span>
@@ -276,7 +276,7 @@
                     </li>
                     <li>
                         <a href="{{ route('supplier-returns.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('supplier-returns.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-truck-loading ml-3"></i>
                             <span>مرتجعات الموردين</span>
@@ -284,7 +284,7 @@
                     </li>
                     <li>
                         <a href="{{ route('inventory-transactions.index') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('inventory-transactions.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-exchange-alt ml-3"></i>
                             <span>حركـــات المخـــزون</span>
@@ -292,7 +292,7 @@
                     </li>
                     <li>
                         <a href="{{ route('pos.reports') }}"
-                            class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 hover:text-orange-600 
+                            class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600 
                                   {{ request()->routeIs('pos.reports') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-chart-line ml-3"></i>
                             <span>التقـــــــــاريــــــــر</span>
