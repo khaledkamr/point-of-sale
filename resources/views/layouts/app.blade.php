@@ -231,7 +231,7 @@
                             class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('customers.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-users ml-3"></i>
-                            <span>العمــــــــــــــــلاء</span>
+                            <span>العمـــــــــــــــلاء</span>
                         </a>
                     </li>
                     <li>
@@ -239,7 +239,7 @@
                             class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('purchase-requests.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-clipboard-list ml-3"></i>
-                            <span>طلبــــات الشــــراء</span>
+                            <span>طلبــــات الشـــــراء</span>
                         </a>
                     </li>
                     <li>
@@ -271,7 +271,7 @@
                             class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('sales-returns.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-undo ml-3"></i>
-                            <span>مرتجعات المبيعـات</span>
+                            <span>مرتجعات المبيعات</span>
                         </a>
                     </li>
                     <li>
@@ -287,7 +287,7 @@
                             class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600
                                   {{ request()->routeIs('inventory-transactions.*') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-exchange-alt ml-3"></i>
-                            <span>حركـــات المخـــزون</span>
+                            <span>حركــات المخـــزون</span>
                         </a>
                     </li>
                     <li>
@@ -295,7 +295,7 @@
                             class="sidebar-link flex items-center p-2 rounded-lg text-gray-700 hover:text-orange-600 
                                   {{ request()->routeIs('pos.reports') ? 'active-link text-white' : '' }}">
                             <i class="fas fa-chart-line ml-3"></i>
-                            <span>التقـــــــــاريــــــــر</span>
+                            <span>التقـــــــــاريـــــــــر</span>
                         </a>
                     </li>
                 </ul>

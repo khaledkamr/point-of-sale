@@ -2,64 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
-    public function index()
-    {
-        $customers = Customer::all();
-        return view('pages.customers.index', compact('customers'));
+    public function index(Request $request) {
+        $customers = Customer::query()
+            ->when(request('search'), function ($query, $search) {
+                $query->where('name_ar', 'like', "%{$search}%")
+                      ->orWhere('name_en', 'like', "%{$search}%");
+            });
+        
+        if(request()->has('type')) {
+            $customers->where('type', request('type'));
+        }
+
+        $customers = $customers->get();
+        $types = Customer::select('type')->distinct()->pluck('type');
+        
+        return view('pages.customers.index', compact('customers', 'types'));
     }
 
-    public function create()
-    {
-        return view('pages.customers.create');
+    public function store(CustomerRequest $request) {
+        $validated = $request->validated();
+
+        $customer = Customer::create($validated);
+
+        if($request->hasFile('img_url')) {
+            $imagePath = $request->file('img_url')->store('customers', 'public');
+            $customer->img_url = $imagePath;
+            $customer->save();
+        }
+
+        return redirect()->back()->with('success', 'تم إنشاء عميل جديد بنجاح.');
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:255',
-            'balance' => 'nullable|numeric|min:0',
-        ]);
-
-        Customer::create($validated);
-
-        return redirect()->back()->with('success', 'تم إنشاء عميل جديد');
-    }
-
-    public function show(Customer $customer)
-    {
+    public function show(Customer $customer) {
         return view('pages.customers.show', compact('customer'));
     }
 
-    public function edit(Customer $customer)
-    {
-        return view('pages.customers.edit', compact('customer'));
-    }
+    public function update(CustomerRequest $request, Customer $customer) {
+        $validated = $request->validated();
 
-    public function update(Request $request, Customer $customer)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:255',
-            'balance' => 'nullable|numeric|min:0',
-        ]);
+        if($request->hasFile('img_url')) {
+            if($customer->img_url) {
+                Storage::disk('public')->delete($customer->img_url);
+            }
+            $imagePath = $request->file('img_url')->store('customers', 'public');
+            $validated['img_url'] = $imagePath;
+        }
 
         $customer->update($validated);
 
-        return redirect()->back()->with('success', 'تم تعديل بيانات العميل بنجاح');
+        return redirect()->back()->with('success', 'تم تحديث بيانات العميل بنجاح.');
     }
 
-    public function destroy(Customer $customer)
-    {
-        $name = $customer->name;
+    public function destroy(Customer $customer) {
+        if($customer->img_url) {
+            Storage::disk('public')->delete($customer->img_url);
+        }
         $customer->delete();
-        return redirect()->back()->with('success', "تم حذف العميل '$name' بنجاح");
+        return redirect()->back()->with('success', 'تم حذف العميل بنجاح.');
     }
 }
