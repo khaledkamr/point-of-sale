@@ -23,8 +23,8 @@ class ProductRequest extends FormRequest
             'profit_margin' => 'nullable|numeric|min:0',
             'img_url' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
             'description' => 'nullable',
-            'is_featured' => 'sometimes|boolean',
-            'is_active' => 'sometimes|boolean',
+            'featured' => 'sometimes|boolean',
+            'active' => 'sometimes|boolean',
         ];
     }
 }

@@ -168,16 +168,16 @@
                                         <div class="flex items-center gap-17">
                                             <label for="featuredEdit" class="block mb-2 text-sm font-bold text-gray-900">مميز</label>
                                             <label class="inline-flex items-center cursor-pointer">
-                                                <input type="hidden" name="is_featured" value="0"> 
-                                                <input type="checkbox" name="is_featured" id="featuredEdit" value="1" class="sr-only peer">
+                                                <input type="hidden" name="featured" value="0"> 
+                                                <input type="checkbox" name="featured" id="featuredEdit" value="1" class="sr-only peer">
                                                 <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
                                             </label>
                                         </div>
                                         <div class="flex items-center gap-16">
                                             <label for="activeEdit" class="block mb-2 text-sm font-bold text-gray-900">فعال</label>
                                             <label class="inline-flex items-center cursor-pointer">
-                                                <input type="hidden" name="is_active" value="0">
-                                                <input type="checkbox" name="is_active" id="activeEdit" value="1" checked class="sr-only peer">
+                                                <input type="hidden" name="active" value="0">
+                                                <input type="checkbox" name="active" id="activeEdit" value="1" checked class="sr-only peer">
                                                 <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
                                             </label>
                                         </div>
@@ -251,12 +251,12 @@
                                 @if (request()->has('warehouse_id') && request('warehouse_id') != 'all' && $stock->warehouse->id != request('warehouse_id'))
                                     @continue
                                 @endif
-                                <tr class="hover:bg-orange-100 transition-colors duration-200 {{ !$product->is_active ? 'opacity-50 bg-gray-100' : '' }}">
+                                <tr class="hover:bg-orange-100 transition-colors duration-200 {{ !$product->active ? 'opacity-50 bg-gray-100' : '' }}">
                                     <td class="p-4 text-center border-b border-gray-200">
                                         {{ $loop->parent->iteration }}
-                                        @if(!$product->is_active)
+                                        @if(!$product->active)
                                             <i class="fas fa-ban text-red-500 ml-1"></i>
-                                        @elseif($product->is_featured)
+                                        @elseif($product->featured)
                                             <i class="fas fa-star text-yellow-400 ml-1"></i>
                                         @endif
                                     </td>
@@ -268,7 +268,7 @@
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 font-medium text-gray-600">
                                         <img src="{{ asset('storage/' . $product->img_url) }}"
-                                            alt="{{ $product->name_ar }}" class="mx-auto h-12 w-12 object-cover rounded {{ !$product->is_active ? 'grayscale' : '' }}">
+                                            alt="{{ $product->name_ar }}" class="mx-auto h-12 w-12 object-cover rounded {{ !$product->active ? 'grayscale' : '' }}">
                                     </td>
                                     <td class="p-4 text-center border-b border-gray-200 text-gray-600">
                                         <span
@@ -294,7 +294,7 @@
                                     <td class="p-4 text-center border-b border-gray-200">
                                         <div class="flex justify-center space-x-2">
                                             <!-- View Button -->
-                                            <a href="" class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200 {{ !$product->is_active ? 'pointer-events-none opacity-50' : '' }}">
+                                            <a href="" class="inline-flex items-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200 {{ !$product->active ? 'pointer-events-none opacity-50' : '' }}">
                                                 <i class="fas fa-eye"></i>
                                             </a>
 
@@ -356,8 +356,7 @@
                                                             required="">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
-                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الفئة
-                                                            <span class="text-red-500">*</span></label>
+                                                        <label class="block mb-2 text-sm font-bold text-gray-900">الفئة <span class="text-red-500">*</span></label>
                                                         <select id="categorySelectEdit{{ $product->id }}" name="category_id"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1">
                                                             <option disabled>إختر فئة المنتج</option>
@@ -417,16 +416,16 @@
                                                             <div class="flex items-center gap-17">
                                                                 <label for="featuredEdit{{ $product->id }}" class="block mb-2 text-sm font-bold text-gray-900">مميز</label>
                                                                 <label class="inline-flex items-center cursor-pointer">
-                                                                    <input type="hidden" name="is_featured" value="0"> 
-                                                                    <input type="checkbox" name="is_featured" id="featuredEdit{{ $product->id }}" value="1" {{ $product->is_featured ? 'checked' : '' }} class="sr-only peer">
+                                                                    <input type="hidden" name="featured" value="0"> 
+                                                                    <input type="checkbox" name="featured" id="featuredEdit{{ $product->id }}" value="1" {{ $product->featured ? 'checked' : '' }} class="sr-only peer">
                                                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
                                                                 </label>
                                                             </div>
                                                             <div class="flex items-center gap-16">
                                                                 <label for="activeEdit{{ $product->id }}" class="block mb-2 text-sm font-bold text-gray-900">فعال</label>
                                                                 <label class="inline-flex items-center cursor-pointer">
-                                                                    <input type="hidden" name="is_active" value="0">
-                                                                    <input type="checkbox" name="is_active" id="activeEdit{{ $product->id }}" value="1" {{ $product->is_active ? 'checked' : '' }} class="sr-only peer">
+                                                                    <input type="hidden" name="active" value="0">
+                                                                    <input type="checkbox" name="active" id="activeEdit{{ $product->id }}" value="1" {{ $product->active ? 'checked' : '' }} class="sr-only peer">
                                                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
                                                                 </label>
                                                             </div>

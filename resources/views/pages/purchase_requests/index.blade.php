@@ -5,7 +5,7 @@
 @section('content')
 <div class="p-6">
     <!-- Page Header -->
-    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <div class="bg-white p-6 rounded-lg shadow mb-6">
         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
             <!-- Title and Add Button -->
             <div class="flex items-center justify-between">
@@ -204,7 +204,6 @@
         
         <div class="relative p-4 w-full max-w-2xl max-h-full z-60">
             <div class="relative bg-white rounded-lg shadow-xl">
-                <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                     <h3 class="text-xl font-semibold text-gray-900 flex items-center">
                         <i class="fas fa-plus-circle ml-3 text-orange-500"></i>
@@ -214,23 +213,18 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                
-                <!-- Modal body -->
                 <form action="{{ route('purchase-requests.store') }}" method="POST" class="p-4 md:p-5">
                     @csrf
                     <div class="grid gap-4 mb-4">
-                        <!-- Warehouse Selection -->
                         <div>
                             <label for="warehouse_id" class="block mb-2 text-sm font-medium text-gray-900">المستودع</label>
-                            <select name="warehouse_id" id="warehouse_id" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5">
+                            <select name="warehouse_id" id="warehouse_id" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1">
                                 <option value="">اختر المستودع</option>
                                 @foreach($warehouses ?? [] as $warehouse)
                                     <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-
-                        <!-- Products Section -->
                         <div>
                             <div class="flex justify-between items-center mb-3">
                                 <label class="block text-sm font-medium text-gray-900">المنتجات المطلوبة</label>
@@ -243,11 +237,9 @@
                                 <!-- Product rows will be added here -->
                             </div>
                         </div>
-                        
-                        <!-- Notes -->
                         <div>
                             <label for="notes" class="block mb-2 text-sm font-medium text-gray-900">ملاحظات</label>
-                            <textarea name="notes" id="notes" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent block w-full p-2.5" placeholder="أدخل أي ملاحظات إضافية..."></textarea>
+                            <textarea name="notes" id="notes" rows="2" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-transparent focus:border-transparent block w-full p-2.5" placeholder="أدخل أي ملاحظات إضافية..."></textarea>
                         </div>
                     </div>
 
@@ -470,7 +462,7 @@
                 <div class="flex-1">
                     <label class="block mb-1 text-xs font-medium text-gray-700">المنتج</label>
                     <select name="products[${productCounter}][product_id]" required 
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full p-2.5">
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full p-1">
                         <option value="">اختر المنتج</option>
                         @foreach($products ?? [] as $product)
                         <option value="{{ $product->id }}">{{ $product->name }}</option>
@@ -479,7 +471,7 @@
                 </div>
                 <div class="w-24">
                     <label class="block mb-1 text-xs font-medium text-gray-700">الكمية</label>
-                    <input type="number" name="products[${productCounter}][quantity]" min="1" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full py-3.5 px-2.5" placeholder="1">
+                    <input type="number" name="products[${productCounter}][quantity]" min="1" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:border-transparent transition-all duration-200 block w-full py-2 px-2" placeholder="1">
                 </div>
                 <button type="button" onclick="removeProductRow(this)" class="text-red-600 hover:text-red-800 p-2.5 rounded-lg hover:bg-red-50">
                     <i class="fas fa-trash-can fa-lg"></i>

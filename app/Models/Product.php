@@ -14,8 +14,8 @@ class Product extends Model
         'description', 
         'profit_margin', 
         'unit',
-        'is_featured',
-        'is_active',
+        'featured',
+        'active',
         'category_id'
     ];
     

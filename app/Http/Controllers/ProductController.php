@@ -78,7 +78,7 @@ class ProductController extends Controller
             'name_ar', 'name_en',
             'sku', 'description', 
             'profit_margin',  'unit',
-            'is_featured', 'is_active',
+            'featured', 'active',
             'category_id'
         ]);
 
@@ -117,9 +117,8 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'تم تحديث بيانات المنتج بنجاح.');
     }
 
-    public function destroy(Product $product)
-    {
-        $name = $product->name;
+    public function destroy(Product $product) {
+        $name = $product->name_ar;
         if($product->img_url && Storage::disk('public')->exists($product->img_url)) {
             Storage::disk('public')->delete($product->img_url);
         }
