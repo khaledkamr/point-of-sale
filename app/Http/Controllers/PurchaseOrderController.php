@@ -18,8 +18,7 @@ class PurchaseOrderController extends Controller
         //
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validated = $request->validate([
             'purchase_request_id' => 'nullable|exists:purchase_requests,id',
             'purchase_offer_id' => 'nullable|exists:purchase_offers,id',
@@ -30,9 +29,10 @@ class PurchaseOrderController extends Controller
         $purchaseOffer = $purchaseRequest->offers()->where('id', $validated['purchase_offer_id'])->first();
         
         $purchaseOrder = PurchaseOrder::create([
+            'purchase_request_id' => $purchaseRequest->id,
             'purchase_offer_id' => $purchaseOffer->id,
             'total_price' => $purchaseOffer->total_price,
-            'status' => 'pending',
+            'notes' => $validated['notes'] ?? null,
         ]);
 
         $purchaseOrder->items()->createMany(
@@ -45,7 +45,8 @@ class PurchaseOrderController extends Controller
             })->toArray()
         );
 
-        $purchaseRequest->update(['status' => 'approved']);
+        $purchaseOffer->update(['selected' => true]);
+        $purchaseRequest->update(['status' => 'مكتمل']);
 
         return redirect()->back()->with('success', 'تم إنشاء أمر الشراء بنجاح.');
     }

@@ -10,10 +10,11 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('purchase_request_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('purchase_offer_id')->nullable()->constrained()->cascadeOnDelete();
             $table->decimal('total_price', 10, 2);
-            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
-            $table->text('notes')->nullable(); // not migrated yet
+            $table->string('status')->default('في الانتظار');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseOrder extends Model
 {
-    protected $fillable = ['purchase_offer_id', 'supplier_id', 'total_price', 'status'];
+    protected $fillable = [
+        'purchase_request_id',
+        'purchase_offer_id', 
+        'total_price', 
+        'status',
+        'notes', 
+    ];
 
     public function purchaseOffer() {
         return $this->belongsTo(PurchaseOffer::class);
@@ -20,13 +26,15 @@ class PurchaseOrder extends Model
         return $this->hasMany(PurchaseOrderItem::class);
     }
 
-    public function receipt()
-    {
+    public function receipt() {
         return $this->hasOne(Receipt::class);
     }
 
-    public function supplierReturns()
-    {
+    public function supplierReturns() {
         return $this->hasMany(SupplierReturn::class);
+    }
+
+    public function purchaseRequest() {
+        return $this->belongsTo(PurchaseRequest::class);
     }
 }

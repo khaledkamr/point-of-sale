@@ -8,18 +8,19 @@ class PurchaseRequest extends Model
 {
     protected $fillable = ['warehouse_id', 'status', 'notes'];
     
-    public function warehouse()
-    {
+    public function warehouse() {
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function items()
-    {
+    public function items() {
         return $this->hasMany(PurchaseRequestItem::class);
     }
 
-    public function offers()
-    {
+    public function offers() {
         return $this->hasMany(PurchaseOffer::class);
+    }
+
+    public function purchaseOrder() {
+        return $this->hasOne(PurchaseOrder::class);
     }
 }

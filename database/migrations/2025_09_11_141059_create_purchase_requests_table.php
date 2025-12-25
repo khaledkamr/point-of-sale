@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('purchase_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('warehouse_id')->constrained('warehouses')->cascadeOnDelete();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->string('status')->default('في الانتظار');
             $table->text('notes')->nullable();
             $table->timestamps();
         });

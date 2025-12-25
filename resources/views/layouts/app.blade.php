@@ -305,13 +305,13 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col mr-64">
             <!-- Top Navbar -->
-            <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+            <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-2">
                 <div class="flex items-center justify-between">
                     <!-- Search Bar -->
                     <div class="flex-1 max-w-md">
                         <div class="relative">
                             <input type="text" placeholder="البحث..."
-                                class="w-full pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                                class="w-full pr-10 pl-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                 <i class="fas fa-search text-gray-400"></i>
                             </div>

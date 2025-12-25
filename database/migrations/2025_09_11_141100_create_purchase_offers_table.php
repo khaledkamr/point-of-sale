@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('purchase_request_id')->constrained()->cascadeOnDelete();
             $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
             $table->decimal('total_price', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'accepted', 'declined'])->default('pending');
+            $table->boolean('selected')->default(false);
             $table->text('notes')->nullable();
             $table->timestamps();
         });

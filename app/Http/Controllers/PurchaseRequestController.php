@@ -11,12 +11,12 @@ use Illuminate\Http\Request;
 
 class PurchaseRequestController extends Controller
 {
-    public function index()
-    {
+    public function index() {
         $purchaseRequests = PurchaseRequest::all();
         $warehouses = Warehouse::all();
         $products = Product::all();
         $suppliers = Supplier::all();
+
         return view('pages.purchase_requests.index', compact(
             'purchaseRequests', 
             'warehouses', 
@@ -25,17 +25,10 @@ class PurchaseRequestController extends Controller
         ));
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validated = $request->validate([
             'warehouse_id' => 'required|exists:warehouses,id',
             'notes' => 'nullable|string',
-            'status' => 'required|in:pending,approved,rejected',
             'products' => 'required|array|min:1',
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|numeric|min:1',
@@ -44,7 +37,6 @@ class PurchaseRequestController extends Controller
         $purchaseRequest = PurchaseRequest::create([
             'warehouse_id' => $validated['warehouse_id'],
             'notes' => $validated['notes'],
-            'status' => $validated['status'],
         ]);
 
         foreach ($validated['products'] as $product) {
@@ -58,10 +50,16 @@ class PurchaseRequestController extends Controller
         return redirect()->back()->with('success', 'تم إنشاء طلب الشراء بنجاح.');
     }
 
-    public function show(PurchaseRequest $purchaseRequest)
-    {
-        $purchaseRequest->load('warehouse', 'items.product');
-        return view('pages.purchase-requests.show', compact('purchaseRequest'));
+    public function show(PurchaseRequest $purchaseRequest) {
+        $purchaseRequest->load([
+            'warehouse',
+            'items.product',
+            'offers.supplier',
+            'offers.purchaseOrder',
+            'purchaseOrder'
+        ]);
+        
+        return view('pages.purchase_requests.purchase_request_details', compact('purchaseRequest'));
     }
 
     public function edit(string $id)
