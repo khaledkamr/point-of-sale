@@ -7,7 +7,6 @@
         <!-- Page Header -->
         <div class="bg-white p-6 rounded-lg shadow mb-6">
             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-                <!-- Title and Add Button -->
                 <div class="flex items-center justify-between">
                     <h1 class="text-3xl font-bold text-gray-800 flex items-center">
                         <i class="fas fa-clipboard-list ml-3 text-orange-500"></i>
@@ -20,9 +19,7 @@
                     </button>
                 </div>
 
-                <!-- Search and Filters -->
                 <div class="flex flex-col sm:flex-row gap-4 lg:items-center">
-                    <!-- Search -->
                     <div class="relative">
                         <input type="text" id="searchInput" placeholder="البحث في طلبات الشراء..."
                             class="w-full sm:w-64 pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
@@ -31,7 +28,6 @@
                         </div>
                     </div>
 
-                    <!-- Status Filter -->
                     <select id="statusFilter"
                         class="w-full sm:w-48 px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
                         <option value="">جميع الحالات</option>
@@ -40,7 +36,6 @@
                         <option value="pending">في الانتظار</option>
                     </select>
 
-                    <!-- Warehouse Filter -->
                     <select id="warehouseFilter"
                         class="w-full sm:w-48 px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
                         <option value="">جميع المستودعات</option>
@@ -49,7 +44,6 @@
                         @endforeach
                     </select>
 
-                    <!-- Add Button (Desktop) -->
                     <button type="button" onclick="openAddPurchaseRequestModal()"
                         class="hidden lg:flex bg-primary text-white font-bold px-6 py-2 rounded-lg hover:opacity-90 transition-all duration-300 items-center">
                         <i class="fas fa-plus ml-2"></i>
@@ -196,8 +190,6 @@
                         </div>
                     </div>
                 </div>
-
-
             @empty
                 <div class="col-span-full">
                     <div class="bg-white rounded-lg shadow-md p-12 text-center">
@@ -348,9 +340,7 @@
     <!-- Create Purchase Order Modal -->
     <div id="createOrderModal" tabindex="-1" aria-hidden="true"
         class="modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <!-- Dark Background Overlay -->
         <div class="fixed inset-0 bg-gray-900/80 transition-opacity duration-300"></div>
-
         <div class="relative p-4 w-full max-w-md max-h-full z-60">
             <div class="relative bg-white rounded-lg shadow-xl">
                 <!-- Modal header -->

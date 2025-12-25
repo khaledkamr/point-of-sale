@@ -118,7 +118,10 @@
                                     {{ $category->parent->name_ar ?? '-' }}
                                 </td>
                                 <td class="p-4 text-center border-b border-gray-200 text-gray-600">
-                                    {{ $category->products->count() ?? '0' }}
+                                    <span class="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-semibold">
+                                        <i class="fas fa-boxes ml-2 text-xs"></i>
+                                        {{ $category->products->count() ?? '0' }}
+                                    </span>
                                 </td>
                                 <td class="p-4 text-center border-b border-gray-200">
                                     <div class="flex justify-center space-x-2">

@@ -119,7 +119,7 @@
                                 <div>
                                     <div class="mb-4">
                                         <label class="block text-sm font-bold text-dark mb-2">الاسم بالإنجليزية</label>
-                                        <input type="text" name="name_en" required
+                                        <input type="text" name="name_en"
                                             class="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200">
                                         @error('name_en')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -143,7 +143,7 @@
                                     </div>
                                     <div class="mb-4">
                                         <label class="block text-sm font-bold text-dark mb-2">حد الائتمان</label>
-                                        <input type="number" step="0.01" name="credit_limit"
+                                        <input type="number" step="0.01" name="credit_limit" value="0"
                                             class="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200">
                                         @error('credit_limit')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -164,7 +164,7 @@
                                     </div>
                                     <div class="mb-4">
                                         <label class="block text-sm font-bold text-dark mb-2">نسبة الضريبة (%)</label>
-                                        <input type="number" step="0.01" name="tax_rate"
+                                        <input type="number" step="0.01" name="tax_rate" value="0"
                                             class="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200">
                                         @error('tax_rate')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

@@ -12,6 +12,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_request_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('purchase_offer_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
             $table->decimal('total_price', 10, 2);
             $table->string('status')->default('في الانتظار');
             $table->text('notes')->nullable();

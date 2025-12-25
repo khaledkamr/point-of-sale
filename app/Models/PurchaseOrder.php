@@ -8,14 +8,19 @@ class PurchaseOrder extends Model
 {
     protected $fillable = [
         'purchase_request_id',
-        'purchase_offer_id', 
+        'warehouse_id',
+        'supplier_id',
         'total_price', 
         'status',
         'notes', 
     ];
 
-    public function purchaseOffer() {
-        return $this->belongsTo(PurchaseOffer::class);
+    public function purchaseRequest() {
+        return $this->belongsTo(PurchaseRequest::class);
+    }
+
+    public function warehouse() {
+        return $this->belongsTo(Warehouse::class);
     }
 
     public function supplier() {
@@ -32,9 +37,5 @@ class PurchaseOrder extends Model
 
     public function supplierReturns() {
         return $this->hasMany(SupplierReturn::class);
-    }
-
-    public function purchaseRequest() {
-        return $this->belongsTo(PurchaseRequest::class);
     }
 }
